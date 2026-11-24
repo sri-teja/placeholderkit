@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Placeholder images, avatars, logos and icons for React and HTML. Deterministic, offline SVG for prototypes, mockups and AI-built apps.",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "type": "module",
   "sideEffects": [
     "./dist/placeholderkit.global.js"
@@ -41,7 +44,11 @@
     "build": "tsup && esbuild src/core/global.ts --bundle --minify --format=iife --global-name=PlaceholderKit --outfile=dist/placeholderkit.global.js",
     "typecheck": "tsc --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "gallery": "esbuild scripts/render.ts --bundle --platform=node --external:@resvg/resvg-js --outfile=scripts/.render.cjs && node scripts/.render.cjs"
+    "gallery": "esbuild scripts/render.ts --bundle --platform=node --external:@resvg/resvg-js --outfile=scripts/.render.cjs && node scripts/.render.cjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "prepublishOnly": "npm run typecheck && npm test"
   },
   "peerDependencies": {
     "lucide-react": ">=0.400.0",
@@ -56,6 +63,7 @@
     }
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
@@ -90,5 +98,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YOUR_GITHUB/placeholderkit.git"
+  },
+  "overrides": {
+    "human-id": "4.1.3"
   }
 }

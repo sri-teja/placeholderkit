@@ -1,0 +1,42 @@
+name: Release
+
+# Opens a "Version Packages" PR when changesets are merged to main,
+# and publishes to npm when that PR is merged.
+#
+# Disabled until the first version has been published by hand. To enable:
+#   1. Publish 0.1.0 manually and configure npm Trusted Publishing for this
+#      repo and this workflow file (npmjs.com > package > Settings).
+#   2. Allow GitHub Actions to create pull requests (repo Settings > Actions).
+#   3. Set the repository variable RELEASE_ENABLED=true.
+# See docs/RELEASING.md.
+
+on:
+  push:
+    branches: [main]
+
+concurrency: release-${{ github.ref }}
+
+jobs:
+  release:
+    if: vars.RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write # npm Trusted Publishing (OIDC) and provenance
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      # Trusted Publishing needs npm >= 11.5.1.
+      - run: npm install -g npm@^11.5.1
+      - run: npm ci
+      - uses: changesets/action@v2.1.2
+        with:
+          version-script: npm run version-packages
+          publish-script: npm run release
+          commit-message: "Version Packages"
+          pr-title: "Version Packages"

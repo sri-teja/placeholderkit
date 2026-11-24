@@ -22,6 +22,7 @@ Everything is generated locally: no network, works offline and in sandboxes, and
 - Tests (`test/`, node:test): determinism, every animal/expression/accessory combination, ratio parsing, XML escaping, React server rendering, icon fallback, script-tag build in jsdom. All pass.
 - Docs: README.md, llms.txt, docs/gallery.png (`npm run gallery`), examples/plain.html, examples/react-example.jsx.
 - `package.json` still has `YOUR_GITHUB` placeholders in repository/homepage.
+- Repo: `main` on GitHub. CI in `.github/workflows/ci.yml` (typecheck, build, test, pack dry-run on Node 18/20/22). Releases via Changesets (`npm run changeset`); `.github/workflows/release.yml` stays off until `RELEASE_ENABLED=true` is set after the first manual publish. See `docs/RELEASING.md`.
 
 ## Rules
 1. **Deterministic.** Same inputs → identical output. All randomness goes through `createRng(seed, salt)` in `src/core/util.ts`. Never use `Math.random()` or read the real clock (`Date.now()`, `new Date()` without an argument) in library code.
