@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>placeholderkit playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base: #EEF1F5; --surface: #FFFFFF; --ink: #1A2130; --muted: #5B6577;
+  --accent: #2F5BEA; --accent-ink: #FFFFFF; --line: #D6DCE5; --code-bg: #1A2130; --code-ink: #E6EAF2;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --base: #12161D; --surface: #1B212B; --ink: #E8ECF2; --muted: #98A2B3;
+    --accent: #7D9BFF; --accent-ink: #0E1320; --line: #2B3341; --code-bg: #0C0F14; --code-ink: #DCE2EC;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --base: #12161D; --surface: #1B212B; --ink: #E8ECF2; --muted: #98A2B3;
+  --accent: #7D9BFF; --accent-ink: #0E1320; --line: #2B3341; --code-bg: #0C0F14; --code-ink: #DCE2EC;
+  color-scheme: dark;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0; background: var(--base); color: var(--ink);
+  font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px; line-height: 1.5;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 40px 20px 64px; }
+header { display: grid; gap: 28px; margin-bottom: 40px; }
+h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1; letter-spacing: -0.03em; font-weight: 800; margin: 0; }
+.lede { max-width: 34ch; color: var(--muted); font-size: 20px; margin: 10px 0 0; }
+.seed-box { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; display: grid; gap: 18px; }
+.seed-box label { font-weight: 600; font-size: 15px; color: var(--muted); }
+.seed-input {
+  width: 100%; font: inherit; font-size: clamp(26px, 4.5vw, 40px); font-weight: 600; letter-spacing: -0.02em;
+  color: var(--ink); background: transparent; border: 0; border-bottom: 3px solid var(--line); padding: 4px 0 8px; outline: none;
+}
+.seed-input:focus-visible { border-bottom-color: var(--accent); }
+.wall { display: flex; flex-wrap: wrap; gap: 8px; }
+.wall img { width: 56px; height: 56px; }
+.hint { font-size: 14px; color: var(--muted); margin: 0; }
+section { margin-top: 48px; }
+h2 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 6px; }
+.sub { color: var(--muted); margin: 0 0 18px; max-width: 60ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip {
+  font: inherit; font-size: 15px; font-weight: 600; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+}
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chip:focus-visible, .copy:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.animals { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 12px; }
+.animals img { width: 100%; height: auto; aspect-ratio: 1; }
+.places { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.places figure { margin: 0; }
+.places img { width: 100%; height: auto; aspect-ratio: 16 / 10; border-radius: 12px; display: block; }
+.places figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
+.logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.logos div { background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.logos img { height: 30px; width: auto; max-width: 100%; display: block; }
+.code { position: relative; }
+pre {
+  margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 14px; padding: 18px 20px;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; line-height: 1.7;
+}
+.code-scroll { overflow-x: auto; border-radius: 14px; }
+.copy {
+  position: absolute; top: 10px; right: 10px; font: inherit; font-size: 14px; font-weight: 600;
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer;
+}
+footer { margin-top: 56px; color: var(--muted); font-size: 15px; }
+@media (min-width: 820px) {
+  header { grid-template-columns: 1fr 1.25fr; align-items: end; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>placeholderkit</h1>
+      <p class="lede">Placeholder avatars, characters, images and logos. Same seed, same picture.</p>
+    </div>
+    <div class="seed-box">
+      <label for="seed">Seed</label>
+      <input id="seed" class="seed-input" value="ana@acme.com" autocomplete="off" spellcheck="false">
+      <div class="wall" id="wall" aria-live="polite"></div>
+      <p class="hint">Use any stable value, like a user id, email or product slug.</p>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-animals">
+    <h2 id="h-animals">One character, many looks</h2>
+    <p class="sub">Pin an animal to keep a consistent set. Each seed changes the expression, accessory and background.</p>
+    <div class="chips" id="animal-chips" role="group" aria-label="Animal"></div>
+    <div class="animals" id="animals"></div>
+  </section>
+
+  <section aria-labelledby="h-places">
+    <h2 id="h-places">Content placeholders</h2>
+    <p class="sub">Pick what the slot will hold. Colors and symbols match the content, so mockups read correctly at a glance.</p>
+    <div class="places" id="places"></div>
+  </section>
+
+  <section aria-labelledby="h-logos">
+    <h2 id="h-logos">Company logos</h2>
+    <p class="sub">Believable fake brands for customer strips, testimonials and dashboards.</p>
+    <div class="logos" id="logos"></div>
+  </section>
+
+  <section aria-labelledby="h-code">
+    <h2 id="h-code">Use it</h2>
+    <p class="sub">React components, plain functions, or a script tag for plain HTML.</p>
+    <div class="code">
+      <div class="code-scroll"><pre id="code"></pre></div>
+      <button class="copy" id="copy" type="button">Copy</button>
+    </div>
+  </section>
+
+  <footer>Everything on this page is generated locally as SVG. No image requests.</footer>
+</div>
+
+<script src="../dist/placeholderkit.global.js"></script>
+<script>
+(function () {
+  var S = window.PlaceholderKit;
+  var $ = function (id) { return document.getElementById(id); };
+  var animal = "fox";
+  var cats = ["food", "product", "travel", "people", "tech", "home", "music", "book"];
+
+  try { var saved = localStorage.getItem("placeholderkit-seed"); if (saved) $("seed").value = saved; } catch (e) {}
+
+  S.ANIMALS.forEach(function (a) {
+    var b = document.createElement("button");
+    b.className = "chip"; b.type = "button"; b.textContent = a[0].toUpperCase() + a.slice(1);
+    b.setAttribute("aria-pressed", a === animal ? "true" : "false");
+    b.addEventListener("click", function () {
+      animal = a;
+      document.querySelectorAll("#animal-chips .chip").forEach(function (c) { c.setAttribute("aria-pressed", c === b ? "true" : "false"); });
+      draw();
+    });
+    $("animal-chips").appendChild(b);
+  });
+
+  function img(src, alt) { var i = new Image(); i.src = src; i.alt = alt; i.decoding = "async"; return i; }
+  function fill(el, nodes) { el.replaceChildren.apply(el, nodes); }
+
+  function draw() {
+    var seed = $("seed").value.trim() || "placeholderkit";
+    try { localStorage.setItem("placeholderkit-seed", seed); } catch (e) {}
+
+    var wall = [img(S.avatarUrl({ seed: seed }), "Person avatar for " + seed)];
+    wall.push(img(S.avatarUrl({ kind: "animal", seed: seed }), "Animal avatar for " + seed));
+    for (var i = 1; i <= 10; i++) wall.push(img(S.avatarUrl({ seed: seed + "#" + i }), "Person avatar"));
+    fill($("wall"), wall);
+
+    var an = [];
+    for (var j = 0; j < 12; j++) an.push(img(S.avatarUrl({ kind: "animal", animal: animal, seed: seed + ":" + j }), animal + " avatar"));
+    fill($("animals"), an);
+
+    fill($("places"), cats.map(function (c) {
+      var f = document.createElement("figure");
+      f.appendChild(img(S.placeholderUrl({ seed: seed + c, category: c, ratio: "16/10" }), c + " placeholder"));
+      var cap = document.createElement("figcaption"); cap.textContent = c; f.appendChild(cap);
+      return f;
+    }));
+
+    var lg = [];
+    for (var k = 0; k < 6; k++) {
+      var d = document.createElement("div");
+      d.appendChild(img(S.logoUrl({ seed: seed + "/" + k }), S.fakeCompanyName(seed + "/" + k) + " logo"));
+      lg.push(d);
+    }
+    fill($("logos"), lg);
+
+    var q = JSON.stringify(seed);
+    $("code").textContent =
+      'npm install placeholderkit\n\n' +
+      'import { Avatar, Placeholder, Logo } from "placeholderkit/react";\n\n' +
+      '<Avatar seed=' + q + ' />\n' +
+      '<Avatar seed=' + q + ' animal="' + animal + '" size={64} />\n' +
+      '<Placeholder seed=' + q + ' category="food" ratio="16/10" />\n' +
+      '<Logo seed=' + q + ' />\n\n' +
+      '<!-- or plain HTML -->\n' +
+      '<script src="https://cdn.jsdelivr.net/npm/placeholderkit/dist/placeholderkit.global.js"><\/script>\n' +
+      '<img data-placeholderkit="animal" data-seed=' + q + ' data-animal="' + animal + '" width="64" height="64">';
+  }
+
+  $("seed").addEventListener("input", draw);
+  $("copy").addEventListener("click", function () {
+    var t = $("code").textContent, btn = $("copy");
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(
+      function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1500); },
+      function () { btn.textContent = "Select and copy"; }
+    );
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

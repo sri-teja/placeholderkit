@@ -1,0 +1,8 @@
+node_modules
+dist
+scripts/.render.cjs
+.DS_Store
+*.log
+*.tgz
+CLAUDE.local.md
+docs/internal/

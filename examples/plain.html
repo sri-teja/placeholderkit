@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>placeholderkit in plain HTML</title>
+  <!-- After publishing: https://cdn.jsdelivr.net/npm/placeholderkit/dist/placeholderkit.global.js -->
+  <script src="../dist/placeholderkit.global.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    .row { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    img { border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <img data-placeholderkit="avatar" data-seed="ana@acme.com" width="48" height="48">
+    <img data-placeholderkit="avatar" data-seed="li@acme.com" width="48" height="48">
+    <img data-placeholderkit="animal" data-seed="team-1" data-animal="fox" width="48" height="48">
+    <img data-placeholderkit="animal" data-seed="team-2" data-animal="fox" width="48" height="48">
+    <img data-placeholderkit="logo" data-seed="acme" data-name="Acme" height="32">
+  </div>
+  <div class="grid">
+    <img data-placeholderkit="placeholder" data-seed="dish-1" data-category="food" data-ratio="4/3" style="width:100%">
+    <img data-placeholderkit="placeholder" data-seed="shoe-1" data-category="product" data-ratio="4/3" style="width:100%">
+    <img data-placeholderkit="placeholder" data-seed="trip-1" data-category="travel" data-ratio="4/3" data-label="Lisbon" style="width:100%">
+  </div>
+</body>
+</html>

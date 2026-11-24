@@ -1,0 +1,35 @@
+# placeholderkit
+
+## What this is
+An open-source npm package for **realistic placeholder content in prototypes**: avatars, animal characters, content images, fake company logos, icons by name, and (next) connected fake business data. Aimed at developers building prototypes and mockups, and especially at AI website builders (v0, Lovable, Bolt, Cursor, Claude Code), which constantly need images and data the user hasn't provided yet.
+
+Everything is generated locally: no network, works offline and in sandboxes, and the same seed always gives the same output.
+
+## Brand and packaging decisions
+- Name: **placeholderkit** (npm name was free when checked; claim it and the `@placeholderkit` npm org on first publish).
+- One brand for the whole suite of prototype content: images, avatars, logos, icons, fake data, and later maps and demo charts. Anything that is not prototype content does not belong here.
+- Now: a single package with subpath exports. Later, if modules get large or need their own dependencies, move to a monorepo with `@placeholderkit/*` scoped packages while keeping `placeholderkit` as the all-in-one package that re-exports them, so existing imports keep working.
+- Distribution: GitHub, npm, jsDelivr (automatic from npm), and `llms.txt` so AI coding tools learn the API. Package description and keywords are chosen for search ("placeholder", "placeholder-image", "placeholder-avatar", "dummy-image", "mock-data", "prototype").
+
+## Current state (v0.1.0, not yet published)
+- `placeholderkit`: core functions: personSvg, animalSvg, placeholderSvg, logoSvg, avatarUrl, placeholderUrl, logoUrl, fakeCompanyName, toDataUri, parseRatio, plus ANIMALS, EXPRESSIONS, ACCESSORIES, CATEGORIES.
+- `placeholderkit/react`: `<Avatar>`, `<Placeholder>`, `<Logo>`. Hook-free, so they work in React Server Components, SSR and the client.
+- `placeholderkit/icons`: `<Icon name="shopping-cart" />`, wrapping lucide-react (optional peer dependency) with a fallback for unknown names.
+- `dist/placeholderkit.global.js`: script-tag build exposing `window.PlaceholderKit`; fills `<img data-placeholderkit="avatar|animal|placeholder|logo" data-seed=...>`, including images added later (MutationObserver).
+- Content: person avatars (6 skin tones, 7 hairstyles, expressions, glasses); 10 animals × 6 expressions × 7 accessories; 20 placeholder categories with palettes and glyphs; logos with 9 mark styles and generated names.
+- Source: `src/core/{util,person,animals,placeholder,logo,index,global}.ts`, `src/react/{index,icons}.tsx`.
+- Build: tsup (ESM, CJS, d.ts) plus esbuild for the IIFE global build. Scripts: `build`, `typecheck`, `test`, `gallery`.
+- Tests (`test/`, node:test): determinism, every animal/expression/accessory combination, ratio parsing, XML escaping, React server rendering, icon fallback, script-tag build in jsdom. All pass.
+- Docs: README.md, llms.txt, docs/gallery.png (`npm run gallery`), examples/plain.html, examples/react-example.jsx.
+- `package.json` still has `YOUR_GITHUB` placeholders in repository/homepage.
+
+## Rules
+1. **Deterministic.** Same inputs → identical output. All randomness goes through `createRng(seed, salt)` in `src/core/util.ts`. Never use `Math.random()` or read the real clock (`Date.now()`, `new Date()` without an argument) in library code.
+2. **No network** and no runtime dependencies in core.
+3. React components stay hook-free and SSR-safe.
+4. Avatars use a 100×100 viewBox; placeholders are 400 wide with height from the ratio. Escape all user-provided text with `escapeXml`.
+5. Every image gets sensible default alt text.
+6. Any public API change updates **README.md, llms.txt and tests in the same change**.
+7. Before calling anything done: `npm run typecheck && npm test`. After any visual change, run `npm run gallery` and look at `docs/gallery.png`.
+8. Keep subpaths independent so importing one doesn't pull in the others' code. Report gzip sizes when adding modules.
+9. Ask before publishing to npm, pushing to a remote, or adding a runtime dependency.
