@@ -39,3 +39,18 @@ test("ratios parse in common formats", () => {
   assert.equal(sp.parseRatio("bad"), 16 / 9);
   assert.match(sp.placeholderSvg({ seed: "x", ratio: "1/1" }), /viewBox="0 0 400 400"/);
 });
+
+test("every person avatar's face stands apart from its background", () => {
+  const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const dist = (a, b) => {
+    const [r1, g1, b1] = rgb(a), [r2, g2, b2] = rgb(b);
+    const rm = (r1 + r2) / 2, dr = r1 - r2, dg = g1 - g2, db = b1 - b2;
+    return Math.sqrt((2 + rm / 256) * dr * dr + 4 * dg * dg + (2 + (255 - rm) / 256) * db * db);
+  };
+  for (let i = 0; i < 500; i++) {
+    const svg = sp.personSvg({ seed: `face-${i}` });
+    const bg = svg.match(/<rect width="100" height="100" rx="[\d.]+" fill="(#[0-9A-Fa-f]{6})"/)[1];
+    const face = svg.match(/<ellipse cx="50" cy="49" rx="21" ry="22" fill="(#[0-9A-Fa-f]{6})"/)[1];
+    assert.ok(dist(face, bg) >= 60, `seed face-${i}: ${face} on ${bg}`);
+  }
+});

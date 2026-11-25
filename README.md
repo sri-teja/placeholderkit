@@ -69,7 +69,7 @@ animalSvg({ seed: "u7", animal: "cat" });                  // raw SVG string
 | `shape` | `circle`, `rounded`, `square` | `circle` |
 | `background` | any color or `transparent` | picked from seed |
 | `hairstyle` (Avatar) | `short`, `long`, `bun`, `curly`, `bob`, `buzz`, `none` | picked from seed |
-| `animal` (AnimalAvatar) | `fox`, `cat`, `bear`, `panda`, `rabbit`, `dog`, `owl`, `frog`, `penguin`, `koala` | picked from seed |
+| `animal` (AnimalAvatar) | `fox`, `cat`, `bear`, `panda`, `rabbit`, `dog`, `owl`, `penguin`, `koala` | picked from seed |
 | `expression` (AnimalAvatar) | `happy`, `joy`, `wink`, `sleepy`, `surprised`, `smirk` | picked from seed |
 | `accessory` (AnimalAvatar) | `none`, `glasses`, `party-hat`, `bow`, `headphones`, `crown`, `beanie` | picked from seed |
 

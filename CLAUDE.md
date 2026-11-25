@@ -16,7 +16,7 @@ Everything is generated locally: no network, works offline and in sandboxes, and
 - `placeholderkit/react`: `<Avatar>` (person), `<AnimalAvatar>`, `<Placeholder>`, `<Logo>`. Hook-free, so they work in React Server Components, SSR and the client.
 - `placeholderkit/icons`: `<Icon name="shopping-cart" />`, wrapping lucide-react (optional peer dependency) with a fallback for unknown names.
 - `dist/placeholderkit.global.js`: script-tag build exposing `window.PlaceholderKit`; fills `<img data-placeholderkit="avatar|animal|placeholder|logo" data-seed=...>`, including images added later (MutationObserver).
-- Content: person avatars (6 skin tones, 7 hairstyles, expressions, glasses); 10 animals × 6 expressions × 7 accessories; 20 placeholder categories with palettes and glyphs; logos with 9 mark styles and generated names.
+- Content: person avatars (6 skin tones, 7 hairstyles, expressions, glasses); 9 animals × 6 expressions × 7 accessories; 20 placeholder categories with palettes and glyphs; logos with 9 mark styles and generated names.
 - Source: `src/core/{util,person,animals,placeholder,logo,index,global}.ts`, `src/react/{index,icons}.tsx`.
 - Build: tsup (ESM, CJS, d.ts) plus esbuild for the IIFE global build. Scripts: `build`, `typecheck`, `test`, `gallery`.
 - Tests (`test/`, node:test): determinism, every animal/expression/accessory combination, ratio parsing, XML escaping, React server rendering, icon fallback, script-tag build in jsdom. All pass.

@@ -12,7 +12,7 @@ const put = (svg: string, w: number, h: number) => {
 for (let i = 0; i < 16; i++) { x = (i % 8) * 110 + 10; y = Math.floor(i / 8) * 110 + 10; put(sp.personSvg({ seed: "user" + i }), 100, 100); }
 // rows: each animal 8 variants
 sp.ANIMALS.forEach((a, row) => { for (let i = 0; i < 8; i++) { x = i * 110 + 10; y = 240 + row * 110; put(sp.animalSvg({ seed: a + i, animal: a }), 100, 100); } });
-const top = 240 + 10 * 110 + 10;
+const top = 240 + sp.ANIMALS.length * 110 + 10;
 sp.CATEGORIES.forEach((c, i) => { x = (i % 5) * 176 + 10; y = top + Math.floor(i / 5) * 110; put(sp.placeholderSvg({ seed: c, category: c, ratio: "16/10", label: i % 4 === 0 ? c[0].toUpperCase() + c.slice(1) : undefined }), 166, 104); });
 const top2 = top + 4 * 110 + 10;
 for (let i = 0; i < 9; i++) { x = (i % 3) * 293 + 10; y = top2 + Math.floor(i / 3) * 60; put(sp.logoSvg({ seed: "co" + i }), 280, 50); }

@@ -32,7 +32,7 @@ personSvg / animalSvg / placeholderSvg / logoSvg -> SVG string
 fakeCompanyName(seed) -> string
 
 ## Allowed values
-animal: fox, cat, bear, panda, rabbit, dog, owl, frog, penguin, koala
+animal: fox, cat, bear, panda, rabbit, dog, owl, penguin, koala
 expression: happy, joy, wink, sleepy, surprised, smirk
 accessory: none, glasses, party-hat, bow, headphones, crown, beanie
 hairstyle: short, long, bun, curly, bob, buzz, none

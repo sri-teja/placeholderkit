@@ -10,7 +10,7 @@ const MARKERS = {
   placeholder: "M16 50H84", // food glyph path
   logo: "Juniper", // company name prefix
   animals: "penguin",
-  person: "F6D3B3", // first skin tone
+  person: "FBDCC4", // first skin tone
 };
 
 async function bundle(code) {
