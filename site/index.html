@@ -286,11 +286,54 @@ h2 em { font-style: normal; color: var(--accent); }
 .avatar-row img { width: 52px; height: 52px; margin-left: -12px; border-radius: 50%; box-shadow: 0 0 0 3px var(--bg); transition: transform .2s; }
 .avatar-row img:first-child { margin-left: 0; }
 .avatar-row img:hover { transform: translateY(-4px); }
-footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 14.5px; }
-.foot { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; justify-content: space-between; }
-.foot nav { display: flex; gap: 22px; flex-wrap: wrap; }
-.foot a { text-decoration: none; }
-.foot a:hover { color: var(--ink); }
+/* Footer: a small scene (sky, drifting clouds, wordmark, a train of avatars) above the links.
+   Only transforms are animated, and only while the footer is on screen. */
+.footer { --sky-1: #DCEAF7; --sky-2: #B9D3EE; --word: rgba(255, 255, 255, .62); --cloud: #FFFFFF; --rail: #3B4253;
+  --car-top: #F7F1E3; --car-bottom: #4B4BE8; --car-line: rgba(21, 23, 28, .14); --ground: #14161B; --g-ink: #ECEAE4; --g-muted: #8E94A1; --g-line: rgba(255, 255, 255, .09);
+  position: relative; isolation: isolate; overflow: hidden; }
+:root[data-theme="dark"] .footer { --sky-1: #121729; --sky-2: #1C2643; --word: rgba(255, 255, 255, .07); --cloud: #3A4466; --car-top: #E9E2D1; --car-bottom: #6464F0; --ground: #08090B; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .footer { --sky-1: #121729; --sky-2: #1C2643; --word: rgba(255, 255, 255, .07); --cloud: #3A4466; --car-top: #E9E2D1; --car-bottom: #6464F0; --ground: #08090B; } }
+.scene { --stars: none; position: relative; height: clamp(220px, 28vw, 340px); background: var(--stars), linear-gradient(180deg, var(--bg) 0%, var(--sky-1) 38%, var(--sky-2) 100%); }
+:root[data-theme="dark"] .scene { --stars: radial-gradient(1.5px 1.5px at 12% 30%, #fff8 50%, transparent 51%), radial-gradient(1px 1px at 27% 18%, #fff7 50%, transparent 51%), radial-gradient(1.5px 1.5px at 44% 34%, #fff6 50%, transparent 51%), radial-gradient(1px 1px at 63% 22%, #fff8 50%, transparent 51%), radial-gradient(1.5px 1.5px at 78% 40%, #fff6 50%, transparent 51%), radial-gradient(1px 1px at 90% 16%, #fff7 50%, transparent 51%), radial-gradient(1px 1px at 6% 52%, #fff5 50%, transparent 51%), radial-gradient(1px 1px at 55% 48%, #fff5 50%, transparent 51%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .scene { --stars: radial-gradient(1.5px 1.5px at 12% 30%, #fff8 50%, transparent 51%), radial-gradient(1px 1px at 27% 18%, #fff7 50%, transparent 51%), radial-gradient(1.5px 1.5px at 44% 34%, #fff6 50%, transparent 51%), radial-gradient(1px 1px at 63% 22%, #fff8 50%, transparent 51%), radial-gradient(1.5px 1.5px at 78% 40%, #fff6 50%, transparent 51%), radial-gradient(1px 1px at 90% 16%, #fff7 50%, transparent 51%), radial-gradient(1px 1px at 6% 52%, #fff5 50%, transparent 51%), radial-gradient(1px 1px at 55% 48%, #fff5 50%, transparent 51%); } }
+.word { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font-weight: 700; letter-spacing: -0.06em; line-height: .8; white-space: nowrap;
+  font-size: clamp(64px, 15vw, 230px); color: var(--word); user-select: none; z-index: 0; }
+.cloud { position: absolute; left: 0; width: 160px; height: auto; fill: var(--cloud); opacity: .92; z-index: 1; animation: drift 90s linear infinite; will-change: transform; }
+.cloud.c1 { top: 22%; animation-duration: 95s; animation-delay: -30s; }
+.cloud.c2 { top: 8%; width: 110px; opacity: .75; animation-duration: 130s; animation-delay: -95s; }
+.cloud.c3 { top: 40%; width: 210px; animation-duration: 110s; animation-delay: -70s; z-index: 2; }
+@keyframes drift { from { transform: translateX(-260px); } to { transform: translateX(calc(100vw + 40px)); } }
+.rail { position: absolute; left: 0; right: 0; bottom: 0; height: 12px; z-index: 3;
+  background: linear-gradient(var(--rail), var(--rail)) top / 100% 3px no-repeat, repeating-linear-gradient(90deg, var(--rail) 0 6px, transparent 6px 22px) 0 5px / 100% 5px no-repeat; opacity: .85; }
+.train { position: absolute; left: 0; bottom: 15px; display: flex; gap: 6px; z-index: 3; animation: ride 30s linear infinite; will-change: transform; }
+@keyframes ride { from { transform: translateX(-100%); } to { transform: translateX(100vw); } }
+.car { position: relative; width: 196px; height: 70px; border-radius: 12px 12px 7px 7px; box-shadow: inset 0 0 0 1px var(--car-line);
+  background: linear-gradient(var(--car-top) 0 64%, var(--car-bottom) 64%); display: flex; gap: 8px; padding: 10px 13px 0; animation: bob .7s ease-in-out infinite alternate; }
+.car:nth-child(2) { animation-delay: -.25s; } .car:nth-child(3) { animation-delay: -.5s; }
+.car.loco { border-top-right-radius: 34px; padding-right: 34px; }
+.car.loco::after { content: ""; position: absolute; right: 9px; top: 48px; width: 9px; height: 6px; border-radius: 3px; background: #FFE08A; }
+.car::before { content: ""; position: absolute; left: 18px; right: 18px; bottom: -7px; height: 13px;
+  background: radial-gradient(circle at 7px 6px, #2A2E38 5.5px, transparent 6px) 0 0 / 28px 13px repeat-x; }
+.car img { width: 32px; height: 32px; border-radius: 8px; background: #FFFFFF; box-shadow: 0 0 0 2px rgba(255, 255, 255, .85); }
+@keyframes bob { to { transform: translateY(-1.5px); } }
+.footer:not(.playing) .cloud, .footer:not(.playing) .train, .footer:not(.playing) .car { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .train { left: auto; right: 6%; } }
+@media (max-width: 640px) { .word { font-size: 13.5vw; bottom: 84px; } .car { width: 128px; height: 50px; gap: 5px; padding: 7px 9px 0; } .car img { width: 21px; height: 21px; border-radius: 6px; } .car.loco { padding-right: 22px; border-top-right-radius: 24px; } .car.loco::after { top: 33px; } .cloud { width: 110px; } .cloud.c3 { width: 140px; } }
+.ground { background: var(--ground); color: var(--g-muted); font-size: 14.5px; position: relative; z-index: 4; }
+.ground a { color: var(--g-ink); text-decoration: none; opacity: .82; transition: opacity .15s; }
+.ground a:hover { opacity: 1; }
+.cols { display: grid; gap: 28px 20px; padding: 40px 0 32px; grid-template-columns: repeat(3, 1fr); }
+.cols > :first-child { grid-column: 1 / -1; }
+@media (min-width: 760px) { .cols { grid-template-columns: 1.6fr repeat(3, 1fr); gap: 32px; padding: 44px 0 36px; } .cols > :first-child { grid-column: auto; } }
+.cols h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--g-muted); margin: 0 0 14px; }
+.cols ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cols .about { color: var(--g-ink); font-size: 17px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.cols .about img { width: 28px; height: 28px; }
+.cols p { margin: 0 0 18px; max-width: 34ch; }
+.cols .install-mini { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13.5px; color: var(--g-ink); background: rgba(255, 255, 255, .06); border: 1px solid var(--g-line); border-radius: 12px; padding: 10px 14px; cursor: pointer; transition: background .15s; }
+.cols .install-mini:hover { background: rgba(255, 255, 255, .1); }
+.cols .install-mini svg { width: 15px; height: 15px; opacity: .7; }
+.base { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; border-top: 1px solid var(--g-line); padding: 20px 0 32px; font-size: 13.5px; }
 
 /* Toast */
 .toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 14px; font-size: 14px; box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s cubic-bezier(.2, .8, .2, 1); z-index: 80; max-width: calc(100vw - 32px); display: flex; gap: 10px; align-items: center; }
@@ -517,15 +560,36 @@ footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--m
   </div>
 </main>
 
-<footer>
-  <div class="container foot">
-    <span>placeholderkit v{{VERSION}} · MIT license · Every image on this page is generated in your browser.</span>
-    <nav aria-label="Footer">
-      <a href="https://github.com/sri-teja/placeholderkit">GitHub</a>
-      <a href="https://www.npmjs.com/package/@placeholderkit/core">npm</a>
-      <a href="https://github.com/sri-teja/placeholderkit/blob/main/CHANGELOG.md">Changelog</a>
-      <a href="llms.txt">llms.txt</a>
-    </nav>
+<footer class="footer" id="footer">
+  <div class="scene" aria-hidden="true">
+    <div class="word">placeholderkit</div>
+    <svg class="cloud c1" viewBox="0 0 160 64"><path d="M30 60a22 22 0 0 1-2-44 30 30 0 0 1 56-8 24 24 0 0 1 40 10 22 22 0 0 1 8 42Z"/></svg>
+    <svg class="cloud c2" viewBox="0 0 160 64"><path d="M26 60a20 20 0 0 1 0-40 28 28 0 0 1 52-4 22 22 0 0 1 38 14 16 16 0 0 1 18 30Z"/></svg>
+    <svg class="cloud c3" viewBox="0 0 160 64"><path d="M30 60a22 22 0 0 1-2-44 30 30 0 0 1 56-8 24 24 0 0 1 40 10 22 22 0 0 1 8 42Z"/></svg>
+    <div class="train" id="train"><div class="car"></div><div class="car"></div><div class="car loco"></div></div>
+    <div class="rail"></div>
+  </div>
+  <div class="ground">
+    <div class="container cols">
+      <div>
+        <p class="about"><img src="favicon.svg" alt="" width="28" height="28">placeholderkit</p>
+        <p>Placeholder avatars, characters, images and logos for prototypes. Every image on this page was drawn in your browser.</p>
+        <button class="install-mini" type="button" data-copy="npm install @placeholderkit/core" aria-label="Copy install command: npm install @placeholderkit/core">npm i @placeholderkit/core<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+      </div>
+      <nav aria-label="Explore">
+        <h3>Explore</h3>
+        <ul><li><a href="#explore">The kit</a></li><li><a href="#install">Install</a></li><li><a href="#ai">For AI tools</a></li><li><a href="#faq">FAQ</a></li></ul>
+      </nav>
+      <nav aria-label="Project">
+        <h3>Project</h3>
+        <ul><li><a href="https://github.com/sri-teja/placeholderkit">GitHub</a></li><li><a href="https://www.npmjs.com/package/@placeholderkit/core">npm</a></li><li><a href="https://github.com/sri-teja/placeholderkit/blob/main/CHANGELOG.md">Changelog</a></li></ul>
+      </nav>
+      <nav aria-label="Resources">
+        <h3>Resources</h3>
+        <ul><li><a href="llms.txt">llms.txt</a></li><li><a href="https://github.com/sri-teja/placeholderkit#readme">Documentation</a></li><li><a href="https://github.com/sri-teja/placeholderkit/issues">Report an issue</a></li></ul>
+      </nav>
+    </div>
+    <div class="container base"><span>v{{VERSION}} · MIT license</span><span>No images were downloaded to draw this page.</span></div>
   </div>
 </footer>
 
@@ -622,6 +686,14 @@ footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--m
     $("float-b").src = K.avatarUrl({ seed: s + "/float" });
     var row = []; for (var r = 0; r < 7; r++) row.push(img(r % 3 === 1 ? K.animalUrl({ seed: s + "/row" + r }) : K.avatarUrl({ seed: s + "/row" + r }), ""));
     $("final-row").replaceChildren.apply($("final-row"), row);
+    document.querySelectorAll("#train .car").forEach(function (car, c) {
+      var n = c === 2 ? 3 : 4, faces = [];
+      for (var w = 0; w < n; w++) {
+        var ws = s + "/train/" + c + "/" + w;
+        faces.push(img((c + w) % 3 === 1 ? K.animalUrl({ seed: ws, accessory: "none", shape: "square" }) : K.avatarUrl({ seed: ws, shape: "square" }), ""));
+      }
+      car.replaceChildren.apply(car, faces);
+    });
   }
 
   /* ---------- explorer ---------- */
@@ -783,6 +855,12 @@ footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--m
     }, { rootMargin: "0px 0px -8% 0px", threshold: .08 });
     document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
   } else document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
+
+  /* footer scene: animate only while visible */
+  var footer = $("footer");
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) { footer.classList.toggle("playing", entries[0].isIntersecting); }).observe(footer);
+  } else footer.classList.add("playing");
 
   /* tab icons + brand */
   var icons = { people: K.avatarUrl({ seed: "tab-people" }), animals: K.animalUrl({ seed: "tab", animal: "fox", expression: "happy", accessory: "none" }), images: K.placeholderUrl({ seed: "tab", category: "travel", ratio: "1/1", glyph: false }), logos: K.logoUrl({ seed: "tab-logo", variant: "mark" }) };
