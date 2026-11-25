@@ -26,5 +26,5 @@ From then on every release goes through the Version Packages PR.
 
 ## Notes
 
-- `@changesets/cli` is pinned to 2.x because 3.x needs Node 22.11+. `human-id` is pinned to 4.1.3 via `overrides` because later versions are ESM-only and break Changesets 2.x on Node < 22.12. Both can be lifted when Node 18/20 support is dropped.
+- `@changesets/cli` is pinned to 2.x because 3.x needs Node 22.11+, so the Release workflow uses `changesets/action@v1` (v2 of the action requires CLI 3.x). `human-id` is pinned to 4.1.3 via `overrides` because later versions are ESM-only and break Changesets 2.x on Node < 22.12. Both can be lifted when Node 18/20 support is dropped.
 - CI (`.github/workflows/ci.yml`) runs typecheck, build, tests and `npm pack --dry-run` on Node 18, 20 and 22 for every push to `main` and every PR.

@@ -34,9 +34,11 @@ jobs:
       # Trusted Publishing needs npm >= 11.5.1.
       - run: npm install -g npm@^11.5.1
       - run: npm ci
-      - uses: changesets/action@v2.1.2
+      # changesets/action v1 matches @changesets/cli v2 (v2 of the action requires CLI v3,
+      # which needs Node 22.11+). See docs/RELEASING.md.
+      - uses: changesets/action@v1.9.0
         with:
-          version-script: npm run version-packages
-          publish-script: npm run release
-          commit-message: "Version Packages"
-          pr-title: "Version Packages"
+          version: npm run version-packages
+          publish: npm run release
+          commit: "Version Packages"
+          title: "Version Packages"
