@@ -420,10 +420,10 @@ h2 em { font-style: normal; color: var(--accent); }
 .rel-card li > p:last-child { margin-bottom: 0; }
 .rel-card li > ul + p { margin-top: 12px; }
 .rel-card code { font-family: var(--mono); font-size: .86em; background: var(--bg-2); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; }
-.preview { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-.preview img { width: 44px; height: 44px; border-radius: 12px; }
-.preview img.wide { width: 70px; }
-.preview small { width: 100%; color: var(--muted); font-size: 12.5px; }
+.rel-preview { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.rel-preview img { width: 44px; height: 44px; border-radius: 12px; }
+.rel-preview img.wide { width: 70px; }
+.rel-preview small { width: 100%; color: var(--muted); font-size: 12.5px; }
 @media (max-width: 760px) {
   .rel { grid-template-columns: 18px minmax(0, 1fr); gap: 0 12px; }
   .rel-meta { grid-column: 2; grid-row: 1; text-align: left; justify-items: start; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding-top: 0; margin-bottom: 10px; }

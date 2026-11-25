@@ -91,7 +91,7 @@ function previews(v) {
       ["food", "travel"].map((c) => img(`"placeholder" data-seed="cl-first-${c}" data-category="${c}" data-ratio="16/10"`, "wide")).join("") +
       "<small>The first release: person and animal avatars, placeholder images, logos and icons.</small>",
   };
-  return P[v] ? `<div class="preview">${P[v]()}</div>` : "";
+  return P[v] ? `<div class="rel-preview">${P[v]()}</div>` : "";
 }
 
 const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
