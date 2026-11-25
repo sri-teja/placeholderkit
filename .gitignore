@@ -7,3 +7,5 @@ scripts/.render.cjs
 docs/gallery.svg
 CLAUDE.local.md
 docs/internal/
+_site
+.claude/

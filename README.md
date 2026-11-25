@@ -2,6 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/@placeholderkit/core)](https://www.npmjs.com/package/@placeholderkit/core)
 
+**[Website and live playground →](https://sri-teja.github.io/placeholderkit/)**
+
 Placeholder images, avatars, logos and icons for React and HTML. Built for prototypes, mockups and AI-built apps.
 
 - **Same seed, same image.** Pass a user id, email or product id and get a stable image every render.

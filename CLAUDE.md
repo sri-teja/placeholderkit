@@ -20,7 +20,7 @@ Everything is generated locally: no network, works offline and in sandboxes, and
 - Source: `src/core/{util,person,animals,placeholder,logo,index,global}.ts`, `src/react/{index,icons}.tsx`.
 - Build: tsup (ESM, CJS, d.ts) plus esbuild for the IIFE global build. Scripts: `build`, `typecheck`, `test`, `gallery`.
 - Tests (`test/`, node:test): determinism, every animal/expression/accessory combination, ratio parsing, XML escaping, React server rendering, icon fallback, script-tag build in jsdom. All pass.
-- Docs: README.md, llms.txt, docs/gallery.png (`npm run gallery`), examples/plain.html, examples/react-example.jsx.
+- Docs: README.md, llms.txt, docs/gallery.png (`npm run gallery`), examples/plain.html, examples/react-example.jsx. Website: `site/index.html`, built into `_site/` by `npm run site` (scripts/build-site.mjs: stamps version, copies the global build and llms.txt, generates favicon and og.png) and deployed to https://sri-teja.github.io/placeholderkit/ by `.github/workflows/pages.yml`.
 - GitHub: `sri-teja/placeholderkit` (set in package.json repository/homepage/bugs).
 - Repo: `main` on GitHub. CI in `.github/workflows/ci.yml` (typecheck, build, test, pack dry-run on Node 22/24/26; `engines.node` is `>=22`). Releases via Changesets (`npm run changeset`); `.github/workflows/release.yml` opens a "Version Packages" PR and publishes on merge via npm Trusted Publishing (switch: repo variable `RELEASE_ENABLED`). See `docs/RELEASING.md`.
 
