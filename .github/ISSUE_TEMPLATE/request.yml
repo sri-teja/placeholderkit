@@ -1,0 +1,42 @@
+name: Request
+description: Ask for a new animal, hairstyle, placeholder category, art style, data industry, or anything else.
+title: "Request: "
+labels: ["request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! The more concrete the use case, the easier it is to get right.
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is it for?
+      options:
+        - Animal character
+        - Person avatar (hairstyle, accessory, look)
+        - Placeholder image category
+        - Art style
+        - Logos
+        - Fake data (industry, locale, field)
+        - Icons
+        - Website or docs
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What would you like?
+      description: For example "a whale character", "a travel booking data industry", or "a `real-estate` listing placeholder with a floor plan".
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Where would you use it?
+      description: The screen or prototype you are building helps decide how it should look or behave.
+  - type: textarea
+    id: example
+    attributes:
+      label: Example or sketch (optional)
+      description: A link, screenshot or rough sketch of what you have in mind.
