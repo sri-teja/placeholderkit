@@ -17,7 +17,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;650;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"placeholderkit","description":"Placeholder avatars, images and logos for prototypes, generated locally as SVG.","codeRepository":"https://github.com/sri-teja/placeholderkit","programmingLanguage":"TypeScript","license":"https://opensource.org/licenses/MIT","version":"{{VERSION}}"}
 </script>
@@ -29,7 +29,6 @@
   --shadow: 0 1px 2px rgba(21, 23, 28, .04), 0 8px 24px rgba(21, 23, 28, .06);
   --shadow-lg: 0 2px 4px rgba(21, 23, 28, .04), 0 24px 64px rgba(21, 23, 28, .12);
   --radius: 18px;
-  --serif: "Instrument Serif", ui-serif, Georgia, serif;
   --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
@@ -64,7 +63,6 @@ img { display: block; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2.5px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 .container { width: min(1160px, 100% - 32px); margin-inline: auto; }
-.serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
 .eyebrow { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
 .skip { position: absolute; left: -9999px; top: 8px; background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; z-index: 100; }
 .skip:focus { left: 16px; }
@@ -110,8 +108,8 @@ button { font: inherit; color: inherit; }
 @media (min-width: 980px) { .hero-grid { grid-template-columns: 1fr 1.08fr; gap: 56px; } }
 .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; color: var(--ink-2); text-decoration: none; box-shadow: var(--shadow); }
 .pill .tag { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 2px 8px; font-weight: 600; font-size: 12.5px; }
-h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(46px, 7.4vw, 86px); line-height: .98; letter-spacing: -0.025em; margin: 22px 0 22px; }
-h1 em { font-style: italic; color: var(--accent); }
+h1 { font-family: var(--sans); font-weight: 650; font-size: clamp(40px, 6vw, 68px); line-height: 1.04; letter-spacing: -0.04em; margin: 22px 0 20px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
 .lede { font-size: clamp(18px, 2vw, 20px); color: var(--muted); max-width: 33ch; margin: 0 0 30px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .trust { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 28px; color: var(--muted); font-size: 14.5px; padding: 0; list-style: none; }
@@ -176,8 +174,8 @@ h1 em { font-style: italic; color: var(--accent); }
 section { padding: 96px 0; }
 @media (max-width: 640px) { section { padding: 64px 0; } .hero { padding-top: 36px; } .final { padding: 72px 0 80px; } }
 .section-head { max-width: 680px; margin-bottom: 40px; }
-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(36px, 5vw, 56px); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 14px; }
-h2 em { font-style: italic; color: var(--accent); }
+h2 { font-family: var(--sans); font-weight: 650; font-size: clamp(30px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 14px; text-wrap: balance; }
+h2 em { font-style: normal; color: var(--accent); }
 .section-head p { color: var(--muted); font-size: 18px; margin: 0; }
 .band { background: var(--bg-2); border-block: 1px solid var(--line); }
 

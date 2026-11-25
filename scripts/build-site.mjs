@@ -46,7 +46,7 @@ for (let r = 0; r < 4; r++) {
 });
 const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
 <rect width="1200" height="630" fill="#FBFAF7"/>
-<text x="64" y="150" font-family="Georgia, 'DejaVu Serif', serif" font-size="84" fill="#15171C" letter-spacing="-2">placeholderkit</text>
+<text x="64" y="148" font-family="'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif" font-weight="700" font-size="76" fill="#15171C" letter-spacing="-3">placeholderkit</text>
 <text x="66" y="214" font-family="'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif" font-size="30" fill="#646A76">Placeholder avatars, images and logos</text>
 <text x="66" y="256" font-family="'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif" font-size="30" fill="#646A76">for prototypes. Generated as SVG.</text>
 <rect x="64" y="300" width="400" height="56" rx="14" fill="#15171C"/>
