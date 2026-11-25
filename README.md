@@ -6,7 +6,7 @@ Placeholder images, avatars, logos and icons for React and HTML. Built for proto
 - **No network.** Everything is generated as SVG in the browser or on the server. Works offline, in sandboxes and in CI.
 - **One package, any stack.** React components, plain functions that return URLs, or a script tag for plain HTML.
 
-![placeholderkit gallery](docs/gallery.png)
+![placeholderkit gallery](https://raw.githubusercontent.com/sri-teja/placeholderkit/main/docs/gallery.png)
 
 ## Install
 
