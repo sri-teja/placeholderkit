@@ -21,3 +21,17 @@ test("script-tag build fills data-placeholderkit images, including ones added la
   assert.ok($("d").src.startsWith("data:image/svg+xml"));
   assert.equal(typeof dom.window.PlaceholderKit.avatarUrl, "function");
 });
+
+test("script tag reads art style, hairstyle, expression and accessory attributes", () => {
+  const dom = new JSDOM(`<body>
+    <img id="p" data-placeholderkit="avatar" data-seed="ana" data-hairstyle="afro" data-art-style="outlined">
+    <img id="a" data-placeholderkit="animal" data-seed="u7" data-animal="lion" data-expression="joy" data-accessory="cap" data-art-style="flat">
+  </body>`, { runScripts: "outside-only" });
+  dom.window.eval(readFileSync(new URL("../dist/placeholderkit.global.js", import.meta.url), "utf8"));
+  const K = dom.window.PlaceholderKit;
+  const decode = (el) => decodeURIComponent(el.src.replace(/^data:image\/svg\+xml;charset=utf-8,/, ""));
+  const $ = (id) => dom.window.document.getElementById(id);
+  assert.equal(decode($("p")), K.personSvg({ seed: "ana", hairstyle: "afro", artStyle: "outlined" }));
+  assert.equal(decode($("a")), K.animalSvg({ seed: "u7", animal: "lion", expression: "joy", accessory: "cap", artStyle: "flat" }));
+  assert.equal($("a").alt, "lion avatar");
+});

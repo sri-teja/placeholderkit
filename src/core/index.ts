@@ -8,12 +8,13 @@ export { animalSvg, ANIMALS, EXPRESSIONS, ACCESSORIES } from "./animals";
 export type { Animal, Expression, Accessory, AnimalOptions } from "./animals";
 export { personSvg } from "./person";
 export type { PersonOptions, Hairstyle } from "./person";
+export { HAIRSTYLES } from "./person";
 export { placeholderSvg, CATEGORIES, parseRatio } from "./placeholder";
 export type { Category, PlaceholderOptions } from "./placeholder";
 export { logoSvg, fakeCompanyName } from "./logo";
 export type { LogoOptions } from "./logo";
-export { toDataUri, hash } from "./util";
-export type { Shape } from "./util";
+export { toDataUri, hash, ART_STYLES } from "./util";
+export type { Shape, ArtStyle } from "./util";
 
 /**
  * Ready-to-use URLs for <img src>, CSS background-image, Markdown, etc.

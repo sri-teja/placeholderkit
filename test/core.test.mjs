@@ -61,3 +61,32 @@ test("package.json is importable by tools via the package's exports", async () =
   assert.equal(pkg.name, "@placeholderkit/core");
   assert.match(pkg.engines.node, />=22/);
 });
+
+test("art styles: soft keeps shading, flat drops it, outlined adds a silhouette outline", () => {
+  for (const make of [(o) => sp.personSvg({ seed: "art", ...o }), (o) => sp.animalSvg({ seed: "art", animal: "fox", ...o })]) {
+    const soft = make({}), flat = make({ artStyle: "flat" }), outlined = make({ artStyle: "outlined" });
+    assert.equal(make({ artStyle: "soft" }), soft, "soft is the default");
+    assert.doesNotMatch(soft, /class="hl"|<!--outline-->/, "no internal markers leak into output");
+    assert.match(soft, /radialGradient/);
+    for (const s of [flat, outlined]) assert.doesNotMatch(s, /radialGradient|fill="#fff" opacity=".85"/);
+    assert.match(outlined, /stroke="#2E2A33" stroke-width="5"/);
+    assert.doesNotMatch(flat, /stroke-width="5"/);
+  }
+  assert.deepEqual([...sp.ART_STYLES], ["soft", "flat", "outlined"]);
+});
+
+test("every hairstyle, animal, accessory and category renders in every art style", () => {
+  for (const artStyle of sp.ART_STYLES) {
+    for (const hairstyle of sp.HAIRSTYLES) assert.match(sp.personSvg({ seed: "h", hairstyle, artStyle }), /^<svg[\s\S]*<\/svg>$/);
+    for (const animal of sp.ANIMALS) for (const accessory of sp.ACCESSORIES) {
+      const svg = sp.animalSvg({ seed: "a", animal, accessory, artStyle });
+      assert.match(svg, new RegExp(`<title>${animal} avatar</title>`));
+      assert.doesNotMatch(svg, /NaN|undefined/);
+    }
+  }
+  assert.equal(sp.ANIMALS.length, 19);
+  for (const c of ["real-estate", "finance", "health", "education", "restaurant-menu", "social-post"]) {
+    assert.ok(sp.CATEGORIES.includes(c));
+    assert.match(sp.placeholderSvg({ seed: "c", category: c }), /^<svg[\s\S]*<\/svg>$/);
+  }
+});

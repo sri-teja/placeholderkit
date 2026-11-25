@@ -10,6 +10,7 @@ npm install @placeholderkit/core   (browsers: any modern; Node.js 22+)
 ## React (import from "@placeholderkit/core/react")
 <Avatar seed="ana@acme.com" />                                   person avatar, 40px circle
 <AnimalAvatar seed="user-7" animal="fox" size={64} />            animal avatar; same species, varied look per seed
+<Avatar seed="ana" artStyle="outlined" />                        artStyle: soft (default) | flat | outlined (not "style", which is CSS)
 <Placeholder seed="dish-3" category="food" ratio="4/3" />        fills container width
 <Placeholder seed="hero" category="travel" ratio="21/9" label="Hero image" />
 <Logo seed="acme" name="Acme" height={28} />                     omit name for a generated fake company
@@ -24,8 +25,8 @@ Icons (import { Icon } from "@placeholderkit/core/icons", requires lucide-react)
 <img data-placeholderkit="logo" data-seed="acme" data-name="Acme" height="28">
 
 ## Functions (import from "@placeholderkit/core", or window.PlaceholderKit with the script tag)
-avatarUrl({ seed, hairstyle?, shape?, background? }) -> data URL (person)
-animalUrl({ seed, animal?, expression?, accessory?, shape?, background? }) -> data URL
+avatarUrl({ seed, hairstyle?, artStyle?, shape?, background? }) -> data URL (person)
+animalUrl({ seed, animal?, expression?, accessory?, artStyle?, shape?, background? }) -> data URL
 placeholderUrl({ seed, category?, ratio?, label? }) -> data URL
 logoUrl({ seed, name?, variant?: "full"|"mark" }) -> data URL
 personSvg / animalSvg / placeholderSvg / logoSvg -> SVG string
@@ -46,12 +47,13 @@ product (saas): analytics, project-management, crm, support-desk, hr, dev-tools
 locale: en-US, en-GB, en-IN; currency: USD, GBP, EUR, INR
 
 ## Allowed values
-animal: fox, cat, bear, panda, rabbit, dog, owl, penguin, koala
+animal: fox, cat, bear, panda, rabbit, dog, owl, penguin, koala, lion, tiger, raccoon, pig, monkey, sheep, hamster, otter, deer, chick
 expression: happy, joy, wink, sleepy, surprised, smirk
-accessory: none, glasses, party-hat, bow, headphones, crown, beanie
-hairstyle: short, long, bun, curly, bob, buzz, none
+accessory: none, glasses, party-hat, bow, headphones, crown, beanie, scarf, flower, cap
+hairstyle: short, long, bun, curly, bob, buzz, ponytail, afro, waves, none
+artStyle: soft, flat, outlined   (HTML: data-art-style; also data-hairstyle, data-expression, data-accessory)
 shape: circle, rounded, square
-category: photo, food, product, travel, nature, people, tech, fashion, home, sports, music, book, car, pet, building, map, chart, document, video, event
+category: photo, food, product, travel, nature, people, tech, fashion, home, sports, music, book, car, pet, building, map, chart, document, video, event, real-estate, finance, health, education, restaurant-menu, social-post
 ratio: "16/9", "4:3", "1/1", or a number
 
 ## Tips

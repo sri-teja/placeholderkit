@@ -685,14 +685,14 @@ h2 em { font-style: normal; color: var(--accent); }
   var root = document.documentElement;
   var DEFAULT_SEED = "acme";
   var CDN = "https://cdn.jsdelivr.net/npm/@placeholderkit/core/dist/placeholderkit.global.js";
-  var HAIR = ["short", "long", "bun", "curly", "bob", "buzz", "none"];
+  var HAIR = K.HAIRSTYLES;
   var SHAPES = ["circle", "rounded", "square"];
   var RATIOS = ["16/9", "4/3", "1/1", "3/4"];
 
   var state = {
     seed: DEFAULT_SEED, tab: "people", lang: "react", install: "react",
-    people: { hairstyle: null, shape: "circle" },
-    animals: { animal: null, expression: null, accessory: null },
+    people: { hairstyle: null, shape: "circle", art: "soft" },
+    animals: { animal: null, expression: null, accessory: null, art: "soft" },
     images: { category: "food", ratio: "4/3" },
     logos: { variant: "full" }
   };
@@ -781,16 +781,16 @@ h2 em { font-style: normal; color: var(--accent); }
   function snippet(kind, lang, opts) {
     var s = seed(), p = state[kind];
     if (kind === "people") {
-      var hs = opts && opts.hairstyle !== undefined ? opts.hairstyle : p.hairstyle, sd = opts && opts.seed || s;
-      if (lang === "react") return '<Avatar seed=' + q(sd) + (hs ? ' hairstyle=' + q(hs) : "") + (p.shape !== "circle" ? ' shape=' + q(p.shape) : "") + " size={64} />";
-      if (lang === "html") return '<img data-placeholderkit="avatar" data-seed=' + q(sd) + (p.shape !== "circle" ? ' data-shape=' + q(p.shape) : "") + ' width="64" height="64">' + (hs ? "\n<!-- hairstyle is set in React or JavaScript -->" : "");
-      return "avatarUrl({ seed: " + q(sd) + (hs ? ", hairstyle: " + q(hs) : "") + (p.shape !== "circle" ? ", shape: " + q(p.shape) : "") + " })";
+      var hs = opts && opts.hairstyle !== undefined ? opts.hairstyle : p.hairstyle, sd = opts && opts.seed || s, ar = p.art !== "soft" ? p.art : null;
+      if (lang === "react") return '<Avatar seed=' + q(sd) + (hs ? ' hairstyle=' + q(hs) : "") + (ar ? ' artStyle=' + q(ar) : "") + (p.shape !== "circle" ? ' shape=' + q(p.shape) : "") + " size={64} />";
+      if (lang === "html") return '<img data-placeholderkit="avatar" data-seed=' + q(sd) + (hs ? ' data-hairstyle=' + q(hs) : "") + (ar ? ' data-art-style=' + q(ar) : "") + (p.shape !== "circle" ? ' data-shape=' + q(p.shape) : "") + ' width="64" height="64">';
+      return "avatarUrl({ seed: " + q(sd) + (hs ? ", hairstyle: " + q(hs) : "") + (ar ? ", artStyle: " + q(ar) : "") + (p.shape !== "circle" ? ", shape: " + q(p.shape) : "") + " })";
     }
     if (kind === "animals") {
-      var a = p.animal, e = p.expression, c = p.accessory, sa = opts && opts.seed || s;
-      if (lang === "react") return '<AnimalAvatar seed=' + q(sa) + (a ? ' animal=' + q(a) : "") + (e ? ' expression=' + q(e) : "") + (c ? ' accessory=' + q(c) : "") + " size={64} />";
-      if (lang === "html") return '<img data-placeholderkit="animal" data-seed=' + q(sa) + (a ? ' data-animal=' + q(a) : "") + ' width="64" height="64">' + (e || c ? "\n<!-- expression and accessory are set in React or JavaScript -->" : "");
-      return "animalUrl({ seed: " + q(sa) + (a ? ", animal: " + q(a) : "") + (e ? ", expression: " + q(e) : "") + (c ? ", accessory: " + q(c) : "") + " })";
+      var a = p.animal, e = p.expression, c = p.accessory, sa = opts && opts.seed || s, art = p.art !== "soft" ? p.art : null;
+      if (lang === "react") return '<AnimalAvatar seed=' + q(sa) + (a ? ' animal=' + q(a) : "") + (e ? ' expression=' + q(e) : "") + (c ? ' accessory=' + q(c) : "") + (art ? ' artStyle=' + q(art) : "") + " size={64} />";
+      if (lang === "html") return '<img data-placeholderkit="animal" data-seed=' + q(sa) + (a ? ' data-animal=' + q(a) : "") + (e ? ' data-expression=' + q(e) : "") + (c ? ' data-accessory=' + q(c) : "") + (art ? ' data-art-style=' + q(art) : "") + ' width="64" height="64">';
+      return "animalUrl({ seed: " + q(sa) + (a ? ", animal: " + q(a) : "") + (e ? ", expression: " + q(e) : "") + (c ? ", accessory: " + q(c) : "") + (art ? ", artStyle: " + q(art) : "") + " })";
     }
     if (kind === "images") {
       var cat = opts && opts.category || p.category, si = opts && opts.seed || s;
@@ -825,21 +825,23 @@ h2 em { font-style: normal; color: var(--accent); }
     var s = seed(), c = $("controls"), g = $("grid"), p = state[state.tab], nodes = [], i;
     c.replaceChildren(); g.className = "grid";
     if (state.tab === "people") {
+      c.appendChild(chips("Art style", K.ART_STYLES, p.art, function (v) { p.art = v; }));
       c.appendChild(chips("Hairstyle", HAIR, p.hairstyle, function (v) { p.hairstyle = v; }, "Any"));
       c.appendChild(chips("Shape", SHAPES, p.shape, function (v) { p.shape = v; }));
       g.classList.add("square");
       for (i = 0; i < 16; i++) {
         var ps = s + "/p" + i;
-        nodes.push(tile(K.avatarUrl({ seed: ps, hairstyle: p.hairstyle || undefined, shape: p.shape }), "Person avatar", snippet("people", state.lang, { seed: ps })));
+        nodes.push(tile(K.avatarUrl({ seed: ps, hairstyle: p.hairstyle || undefined, shape: p.shape, artStyle: p.art }), "Person avatar", snippet("people", state.lang, { seed: ps })));
       }
     } else if (state.tab === "animals") {
+      c.appendChild(chips("Art style", K.ART_STYLES, p.art, function (v) { p.art = v; }));
       c.appendChild(chips("Animal", K.ANIMALS, p.animal, function (v) { p.animal = v; }, "Any"));
       c.appendChild(chips("Expression", K.EXPRESSIONS, p.expression, function (v) { p.expression = v; }, "Any"));
       c.appendChild(chips("Accessory", K.ACCESSORIES, p.accessory, function (v) { p.accessory = v; }, "Any"));
       g.classList.add("square");
       for (i = 0; i < 16; i++) {
         var as = s + "/a" + i;
-        nodes.push(tile(K.animalUrl({ seed: as, animal: p.animal || undefined, expression: p.expression || undefined, accessory: p.accessory || undefined }), (p.animal || "Animal") + " avatar", snippet("animals", state.lang, { seed: as })));
+        nodes.push(tile(K.animalUrl({ seed: as, animal: p.animal || undefined, expression: p.expression || undefined, accessory: p.accessory || undefined, artStyle: p.art }), (p.animal || "Animal") + " avatar", snippet("animals", state.lang, { seed: as })));
       }
     } else if (state.tab === "images") {
       c.appendChild(chips("Category", K.CATEGORIES, p.category, function (v) { p.category = v; }));

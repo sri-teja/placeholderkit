@@ -43,7 +43,7 @@ The components have no hooks, so they work in Server Components, SSR and the cli
 <script src="https://cdn.jsdelivr.net/npm/@placeholderkit/core/dist/placeholderkit.global.js"></script>
 
 <img data-placeholderkit="avatar" data-seed="ana@acme.com" width="40" height="40">
-<img data-placeholderkit="animal" data-seed="user-7" data-animal="owl" width="64" height="64">
+<img data-placeholderkit="animal" data-seed="user-7" data-animal="owl" data-art-style="outlined" width="64" height="64">
 <img data-placeholderkit="placeholder" data-seed="dish-3" data-category="food" data-ratio="4/3">
 <img data-placeholderkit="logo" data-seed="acme" data-name="Acme" height="28">
 ```
@@ -134,17 +134,20 @@ See [`examples/dashboard-example.jsx`](examples/dashboard-example.jsx) for a Saa
 | `size` | number (px) or CSS length | `40` |
 | `shape` | `circle`, `rounded`, `square` | `circle` |
 | `background` | any color or `transparent` | picked from seed |
-| `hairstyle` (Avatar) | `short`, `long`, `bun`, `curly`, `bob`, `buzz`, `none` | picked from seed |
-| `animal` (AnimalAvatar) | `fox`, `cat`, `bear`, `panda`, `rabbit`, `dog`, `owl`, `penguin`, `koala` | picked from seed |
+| `artStyle` | `soft` (shading and shiny eyes), `flat` (solid colors), `outlined` (flat with a dark outline) | `soft` |
+| `hairstyle` (Avatar) | `short`, `long`, `bun`, `curly`, `bob`, `buzz`, `ponytail`, `afro`, `waves`, `none` | picked from seed |
+| `animal` (AnimalAvatar) | `fox`, `cat`, `bear`, `panda`, `rabbit`, `dog`, `owl`, `penguin`, `koala`, `lion`, `tiger`, `raccoon`, `pig`, `monkey`, `sheep`, `hamster`, `otter`, `deer`, `chick` | picked from seed |
 | `expression` (AnimalAvatar) | `happy`, `joy`, `wink`, `sleepy`, `surprised`, `smirk` | picked from seed |
-| `accessory` (AnimalAvatar) | `none`, `glasses`, `party-hat`, `bow`, `headphones`, `crown`, `beanie` | picked from seed |
+| `accessory` (AnimalAvatar) | `none`, `glasses`, `party-hat`, `bow`, `headphones`, `crown`, `beanie`, `scarf`, `flower`, `cap` | picked from seed |
+
+The option is called `artStyle` (not `style`) because `style` is React's prop for inline CSS. In plain HTML use `data-art-style`, `data-hairstyle`, `data-expression` and `data-accessory`.
 
 ### Placeholder
 
 | Prop | Values | Default |
 |---|---|---|
 | `seed` | any string | required |
-| `category` | `photo`, `food`, `product`, `travel`, `nature`, `people`, `tech`, `fashion`, `home`, `sports`, `music`, `book`, `car`, `pet`, `building`, `map`, `chart`, `document`, `video`, `event` | picked from seed |
+| `category` | `photo`, `food`, `product`, `travel`, `nature`, `people`, `tech`, `fashion`, `home`, `sports`, `music`, `book`, `car`, `pet`, `building`, `map`, `chart`, `document`, `video`, `event`, `real-estate`, `finance`, `health`, `education`, `restaurant-menu`, `social-post` | picked from seed |
 | `ratio` | `"16/9"`, `"4:3"`, `1`, ... | `"16/9"` |
 | `label` | text drawn on the image | none |
 | `glyph` | `false` hides the category symbol | `true` |

@@ -27,3 +27,10 @@ test("Icon resolves kebab-case names and falls back on unknown names", () => {
   assert.match(bad, /<svg/);
   assert.notEqual(ok, bad);
 });
+
+test("artStyle prop is passed through to the drawing", () => {
+  const html = renderToStaticMarkup(h("div", null, h(Avatar, { seed: "ana", artStyle: "outlined" }), h(AnimalAvatar, { seed: "u7", animal: "pig", artStyle: "flat" })));
+  const srcs = [...html.matchAll(/src="([^"]+)"/g)].map((m) => decodeURIComponent(m[1].replace(/&amp;/g, "&").replace(/^data:image\/svg\+xml;charset=utf-8,/, "")));
+  assert.match(srcs[0], /stroke-width="5"/);
+  assert.doesNotMatch(srcs[1], /radialGradient/);
+});
