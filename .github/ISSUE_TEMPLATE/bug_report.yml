@@ -1,0 +1,38 @@
+name: Bug report
+description: Something drew wrong, broke, or behaved unexpectedly.
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The @placeholderkit/core version (npm ls @placeholderkit/core).
+      placeholder: "0.4.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where does it happen?
+      options:
+        - Functions (avatarUrl, placeholderUrl, ...)
+        - React components
+        - Script tag (data-placeholderkit)
+        - Fake data (createWorld, exports, CLI)
+        - Icons
+        - Website
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Code to reproduce
+      description: The smallest snippet that shows the problem. Include the seed and options.
+      render: js

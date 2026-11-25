@@ -40,6 +40,20 @@ export const BACKGROUNDS = [
 
 export type Shape = "circle" | "rounded" | "square";
 
+/** Art styles: "soft" (default, gentle shading and shiny eyes), "flat" (solid colors), "outlined" (flat with a dark outline). */
+export const ART_STYLES = ["soft", "flat", "outlined"] as const;
+export type ArtStyle = (typeof ART_STYLES)[number];
+/** Outline color for the "outlined" style. */
+export const OUTLINE = "#2E2A33";
+
+/** Apply an art style to finished avatar markup: drop shading for flat/outlined, add a silhouette outline. */
+export function applyArtStyle(body: string, art: ArtStyle, silhouette: string): string {
+  if (art === "soft") return body.replace(/ class="hl"/g, "");
+  const flat = body.replace(/<[^>]*class="hl"[^>]*\/>/g, "");
+  if (art === "flat") return flat;
+  return flat.replace("<!--outline-->", `<g stroke="${OUTLINE}" stroke-width="5" stroke-linejoin="round">${silhouette}</g>`);
+}
+
 export function bgRect(size: number, fill: string, shape: Shape): string {
   if (fill === "transparent") return "";
   const rx = shape === "circle" ? size / 2 : shape === "rounded" ? size * 0.18 : 0;

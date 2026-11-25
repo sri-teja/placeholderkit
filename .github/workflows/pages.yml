@@ -8,6 +8,7 @@ on:
       - "site/**"
       - "src/**"
       - "llms.txt"
+      - "CHANGELOG.md"
       - "package.json"
       - "scripts/build-site.mjs"
       - ".github/workflows/pages.yml"

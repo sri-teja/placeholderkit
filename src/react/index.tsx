@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   animalSvg, personSvg, placeholderSvg, logoSvg, toDataUri, parseRatio, fakeCompanyName,
-  type Animal, type Expression, type Accessory, type Category, type Shape, type Hairstyle,
+  type Animal, type Expression, type Accessory, type Category, type Shape, type Hairstyle, type ArtStyle,
 } from "../core/index";
 
 type ImgProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src" | "width" | "height">;
@@ -37,11 +37,13 @@ function squareImg(src: string, alt: string, size: number | string, style: React
 
 export interface AvatarProps extends SquareImageProps {
   hairstyle?: Hairstyle;
+  /** "soft" (default), "flat" or "outlined". Named artStyle because `style` is the CSS prop. */
+  artStyle?: ArtStyle;
 }
 
 /** Person avatar. For animal characters use <AnimalAvatar>. */
-export function Avatar({ seed, hairstyle, size = 40, shape = "circle", background, alt, style, ...rest }: AvatarProps) {
-  const src = svgUrl(personSvg({ seed, hairstyle, shape, background }));
+export function Avatar({ seed, hairstyle, artStyle, size = 40, shape = "circle", background, alt, style, ...rest }: AvatarProps) {
+  const src = svgUrl(personSvg({ seed, hairstyle, artStyle, shape, background }));
   return squareImg(src, alt ?? "Avatar", size, style, rest);
 }
 
@@ -50,13 +52,15 @@ export interface AnimalAvatarProps extends SquareImageProps {
   animal?: Animal;
   expression?: Expression;
   accessory?: Accessory;
+  /** "soft" (default), "flat" or "outlined". Named artStyle because `style` is the CSS prop. */
+  artStyle?: ArtStyle;
 }
 
 /** Animal character avatar (fox, cat, panda...). */
 export function AnimalAvatar({
-  seed, animal, expression, accessory, size = 40, shape = "circle", background, alt, style, ...rest
+  seed, animal, expression, accessory, artStyle, size = 40, shape = "circle", background, alt, style, ...rest
 }: AnimalAvatarProps) {
-  const src = svgUrl(animalSvg({ seed, animal, expression, accessory, shape, background }));
+  const src = svgUrl(animalSvg({ seed, animal, expression, accessory, artStyle, shape, background }));
   return squareImg(src, alt ?? `${animal ?? "Animal"} avatar`, size, style, rest);
 }
 

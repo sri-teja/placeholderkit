@@ -2,23 +2,27 @@
  * Script-tag build for plain HTML. Usage:
  *   <script src="https://cdn.jsdelivr.net/npm/@placeholderkit/core/dist/placeholderkit.global.js"></script>
  *   <img data-placeholderkit="avatar" data-seed="ana@acme.com">
- *   <img data-placeholderkit="animal" data-seed="user-7" data-animal="fox">
+ *   <img data-placeholderkit="animal" data-seed="user-7" data-animal="fox" data-art-style="outlined">
  *   <img data-placeholderkit="placeholder" data-seed="dish-3" data-category="food" data-ratio="4/3">
  *   <img data-placeholderkit="logo" data-seed="acme" data-name="Acme">
  * Images fill in automatically, including ones added to the page later.
  */
 import * as core from "./index";
-import type { Animal, Category, Shape } from "./index";
+import type { Accessory, Animal, ArtStyle, Category, Expression, Hairstyle, Shape } from "./index";
 
 function render(el: HTMLImageElement): void {
   const d = el.dataset;
   const seed = d.seed ?? el.alt ?? "placeholderkit";
   const shape = d.shape as Shape | undefined;
+  const artStyle = d.artStyle as ArtStyle | undefined;
   let svg: string;
   let alt: string;
   switch (d.placeholderkit) {
     case "animal":
-      svg = core.animalSvg({ seed, shape, animal: d.animal as Animal | undefined });
+      svg = core.animalSvg({
+        seed, shape, artStyle, animal: d.animal as Animal | undefined,
+        expression: d.expression as Expression | undefined, accessory: d.accessory as Accessory | undefined,
+      });
       alt = `${d.animal ?? "Animal"} avatar`;
       break;
     case "placeholder":
@@ -30,7 +34,7 @@ function render(el: HTMLImageElement): void {
       alt = `${d.name ?? core.fakeCompanyName(seed)} logo`;
       break;
     default:
-      svg = core.personSvg({ seed, shape });
+      svg = core.personSvg({ seed, shape, artStyle, hairstyle: d.hairstyle as Hairstyle | undefined });
       alt = "Avatar";
   }
   const url = core.toDataUri(svg);
@@ -55,7 +59,7 @@ if (typeof document !== "undefined") {
       }
     }).observe(document.documentElement, {
       childList: true, subtree: true,
-      attributeFilter: ["data-seed", "data-animal", "data-category", "data-ratio", "data-label", "data-name", "data-shape", "data-placeholderkit"],
+      attributeFilter: ["data-seed", "data-animal", "data-category", "data-ratio", "data-label", "data-name", "data-shape", "data-placeholderkit", "data-art-style", "data-hairstyle", "data-expression", "data-accessory", "data-variant"],
     });
   };
   // Fill what exists now, watch for more (including the rest of the page while it parses),

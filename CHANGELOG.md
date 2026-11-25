@@ -17,3 +17,9 @@
 ### Patch Changes
 
 - 8ea396d: Releases are now published from GitHub Actions with npm provenance, so each version on npm links to the commit and workflow that built it.
+
+## 0.1.0
+
+### Minor Changes
+
+- First release: person avatars, animal avatars, placeholder images for 20 content categories and fake company logos, all generated locally as SVG. React components (`<Avatar>`, `<AnimalAvatar>`, `<Placeholder>`, `<Logo>`), an `<Icon>` wrapper for Lucide, and a script-tag build that fills `data-placeholderkit` images.

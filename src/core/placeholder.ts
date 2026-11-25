@@ -22,6 +22,12 @@ const GLYPHS = {
   document: `<path d="M26 12H60L76 28V88H26Z"/><path d="M60 12V28H76M36 46H66M36 58H66M36 70H56"/>`,
   video: `<rect x="12" y="24" width="76" height="52" rx="8"/><path d="M42 38L62 50L42 62Z"/>`,
   event: `<rect x="16" y="22" width="68" height="62" rx="6"/><path d="M16 38H84M34 14V28M66 14V28"/>`,
+  "real-estate": `<path d="M18 50L44 28L70 50"/><path d="M26 44V78H62V44"/><path d="M38 78V60H50V78"/><path d="M76 82V40"/><rect x="66" y="40" width="20" height="14" rx="2"/>`,
+  finance: `<ellipse cx="38" cy="70" rx="20" ry="7"/><path d="M18 70V58M58 70V58"/><ellipse cx="38" cy="58" rx="20" ry="7"/><path d="M18 58V46M58 58V46"/><ellipse cx="38" cy="46" rx="20" ry="7"/><path d="M64 70L74 56L82 62L90 44"/>`,
+  health: `<path d="M50 82C30 68 16 56 16 40C16 30 24 22 34 22C41 22 47 26 50 32C53 26 59 22 66 22C76 22 84 30 84 40C84 56 70 68 50 82Z"/><path d="M28 50H40L45 40L52 60L57 50H72"/>`,
+  education: `<path d="M50 24L88 40L50 56L12 40Z"/><path d="M28 47V64C28 70 38 76 50 76S72 70 72 64V47"/><path d="M84 42V62"/>`,
+  "restaurant-menu": `<rect x="24" y="14" width="52" height="72" rx="6"/><path d="M36 30H64M36 42H64M36 54H56M36 66H60"/><path d="M84 30V60M84 30C88 34 88 42 84 46"/>`,
+  "social-post": `<rect x="16" y="18" width="68" height="64" rx="10"/><circle cx="30" cy="31" r="5"/><path d="M40 29H62M40 35H54"/><rect x="26" y="44" width="48" height="24" rx="4"/><path d="M28 76C30 74 33 74 35 76C37 74 40 74 42 76"/>`,
 } as const;
 
 export type Category = keyof typeof GLYPHS;
@@ -49,6 +55,12 @@ const PALETTES: Record<Category, [string, string][]> = {
   document: [["#6B7C93", "#D0D7E2"], ["#7D6B93", "#DAD0E6"], ["#93836B", "#E3DACB"]],
   video: [["#2D2D3A", "#7A7A94"], ["#4B2E5A", "#A786B8"], ["#1F4E5F", "#7FB0C0"]],
   event: [["#D9534F", "#F3BCB9"], ["#E09A2D", "#F5D7A3"], ["#5B6BD9", "#C2C9F3"]],
+  "real-estate": [["#4E7FA6", "#BED4E6"], ["#8F7A5C", "#E0D3BF"], ["#5E8F6E", "#C3DECB"]],
+  finance: [["#2F8A5E", "#B3DEC7"], ["#2F5F9E", "#B5CBEA"], ["#B8873A", "#EED9B3"]],
+  health: [["#D65A6E", "#F5C2CB"], ["#2FA3A0", "#B1E2E0"], ["#6A8FD6", "#C8D7F3"]],
+  education: [["#3C5AA8", "#BCC8EA"], ["#C2793A", "#F0D2B5"], ["#6B5BB8", "#D2CBEE"]],
+  "restaurant-menu": [["#B5543A", "#EFC4B5"], ["#4F6B4A", "#C9D8C4"], ["#8A5A3C", "#E6CDB9"]],
+  "social-post": [["#D85C9A", "#F4C3DB"], ["#5B76E0", "#C4CFF6"], ["#E08A3C", "#F6D3B1"]],
 };
 
 export interface PlaceholderOptions {
