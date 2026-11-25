@@ -11,7 +11,7 @@ Everything is generated locally: no network, works offline and in sandboxes, and
 - Now: a single package with subpath exports. Later, if modules get large or need their own dependencies, move to a monorepo with `@placeholderkit/*` scoped packages while keeping `@placeholderkit/core` as the all-in-one package that re-exports them, so existing imports keep working.
 - Distribution: GitHub, npm, jsDelivr (automatic from npm), and `llms.txt` so AI coding tools learn the API. Package description and keywords are chosen for search ("placeholder", "placeholder-image", "placeholder-avatar", "dummy-image", "mock-data", "prototype").
 
-## Current state (v0.1.0, not yet published)
+## Current state (v0.1.0, published to npm as @placeholderkit/core on 2026-11-25)
 - `@placeholderkit/core`: core functions: personSvg, animalSvg, placeholderSvg, logoSvg, avatarUrl (person), animalUrl, placeholderUrl, logoUrl, fakeCompanyName, toDataUri, parseRatio, plus ANIMALS, EXPRESSIONS, ACCESSORIES, CATEGORIES.
 - `@placeholderkit/core/react`: `<Avatar>` (person), `<AnimalAvatar>`, `<Placeholder>`, `<Logo>`. Hook-free, so they work in React Server Components, SSR and the client.
 - `@placeholderkit/core/icons`: `<Icon name="shopping-cart" />`, wrapping lucide-react (optional peer dependency) with a fallback for unknown names.
