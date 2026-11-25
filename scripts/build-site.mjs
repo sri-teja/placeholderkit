@@ -4,6 +4,7 @@ import { mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync } from "no
 import { Resvg } from "@resvg/resvg-js";
 import { build } from "esbuild";
 import { execSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { animalSvg, personSvg, placeholderSvg, logoSvg, avatarUrl, placeholderUrl, logoUrl, fakeCompanyName } from "../dist/index.js";
 import { createWorld } from "../dist/data.js";
 import { storeHtml, recordJson } from "../site/mock-data-view.js";
@@ -41,8 +42,13 @@ function page(file, { root, home, current = "" }, extra = {}) {
     VERSION: version, SITE_URL, ROOT: root, HOME: home, CHANGELOG_CURRENT: current, REPO_URL,
     GUIDE_LINKS: GUIDE_LINKS(root), REQUEST_URL: `${REPO_URL}/issues/new?template=request.yml`, LICENSE_URL: `${REPO_URL}/blob/main/LICENSE`, ...extra,
   };
-  return html.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m));
+  return html.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vars ? vars[k] : m))
+    // Cache-busting: GitHub Pages lets browsers keep files for 10 minutes, so a new page could load an old stylesheet.
+    .replace(/(?<="(?:\.\.?\/)?)(site\.css|common\.js|placeholderkit\.global\.js|data\.js|mock-data-view\.js)"/g, (_, f) => `${f}?v=${ASSET_HASH[f]}"`);
 }
+/** Short content hash per local asset, appended as ?v= to every reference to it. */
+const ASSET_SOURCES = { "site.css": "site/site.css", "common.js": "site/common.js", "placeholderkit.global.js": "dist/placeholderkit.global.js", "data.js": "dist/data.js", "mock-data-view.js": "site/mock-data-view.js" };
+const ASSET_HASH = Object.fromEntries(Object.entries(ASSET_SOURCES).map(([f, src]) => [f, createHash("sha256").update(readFileSync(src)).digest("hex").slice(0, 10)]));
 writeFileSync(`${OUT}/index.html`, page("site/index.html", { root: "", home: "#top" }));
 copyFileSync("site/site.css", `${OUT}/site.css`);
 copyFileSync("site/common.js", `${OUT}/common.js`);
