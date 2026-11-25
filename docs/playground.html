@@ -156,7 +156,7 @@ footer { margin-top: 56px; color: var(--muted); font-size: 15px; }
   function fill(el, nodes) { el.replaceChildren.apply(el, nodes); }
 
   function draw() {
-    var seed = $("seed").value.trim() || "placeholderkit";
+    var seed = $("seed").value.trim() || "@placeholderkit/core";
     try { localStorage.setItem("placeholderkit-seed", seed); } catch (e) {}
 
     var wall = [img(S.avatarUrl({ seed: seed }), "Person avatar for " + seed)];
@@ -185,14 +185,14 @@ footer { margin-top: 56px; color: var(--muted); font-size: 15px; }
 
     var q = JSON.stringify(seed);
     $("code").textContent =
-      'npm install placeholderkit\n\n' +
-      'import { Avatar, AnimalAvatar, Placeholder, Logo } from "placeholderkit/react";\n\n' +
+      'npm install @placeholderkit/core\n\n' +
+      'import { Avatar, AnimalAvatar, Placeholder, Logo } from "@placeholderkit/core/react";\n\n' +
       '<Avatar seed=' + q + ' />\n' +
       '<AnimalAvatar seed=' + q + ' animal="' + animal + '" size={64} />\n' +
       '<Placeholder seed=' + q + ' category="food" ratio="16/10" />\n' +
       '<Logo seed=' + q + ' />\n\n' +
       '<!-- or plain HTML -->\n' +
-      '<script src="https://cdn.jsdelivr.net/npm/placeholderkit/dist/placeholderkit.global.js"><\/script>\n' +
+      '<script src="https://cdn.jsdelivr.net/npm/@placeholderkit/core/dist/placeholderkit.global.js"><\/script>\n' +
       '<img data-placeholderkit="animal" data-seed=' + q + ' data-animal="' + animal + '" width="64" height="64">';
   }
 

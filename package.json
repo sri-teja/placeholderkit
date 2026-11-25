@@ -1,5 +1,5 @@
 {
-  "name": "placeholderkit",
+  "name": "@placeholderkit/core",
   "version": "0.1.0",
   "description": "Placeholder images, avatars, logos and icons for React and HTML. Deterministic, offline SVG for prototypes, mockups and AI-built apps.",
   "license": "MIT",

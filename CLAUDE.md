@@ -6,15 +6,15 @@ An open-source npm package for **realistic placeholder content in prototypes**: 
 Everything is generated locally: no network, works offline and in sandboxes, and the same seed always gives the same output.
 
 ## Brand and packaging decisions
-- Name: **placeholderkit** (npm name was free when checked; claim it and the `@placeholderkit` npm org on first publish).
+- Name: **placeholderkit**; published on npm as **`@placeholderkit/core`** (npm blocks the unscoped `placeholderkit` as too similar to the existing `placeholder-kit`). The `@placeholderkit` npm org owns the scope.
 - One brand for the whole suite of prototype content: images, avatars, logos, icons, fake data, and later maps and demo charts. Anything that is not prototype content does not belong here.
-- Now: a single package with subpath exports. Later, if modules get large or need their own dependencies, move to a monorepo with `@placeholderkit/*` scoped packages while keeping `placeholderkit` as the all-in-one package that re-exports them, so existing imports keep working.
+- Now: a single package with subpath exports. Later, if modules get large or need their own dependencies, move to a monorepo with `@placeholderkit/*` scoped packages while keeping `@placeholderkit/core` as the all-in-one package that re-exports them, so existing imports keep working.
 - Distribution: GitHub, npm, jsDelivr (automatic from npm), and `llms.txt` so AI coding tools learn the API. Package description and keywords are chosen for search ("placeholder", "placeholder-image", "placeholder-avatar", "dummy-image", "mock-data", "prototype").
 
 ## Current state (v0.1.0, not yet published)
-- `placeholderkit`: core functions: personSvg, animalSvg, placeholderSvg, logoSvg, avatarUrl (person), animalUrl, placeholderUrl, logoUrl, fakeCompanyName, toDataUri, parseRatio, plus ANIMALS, EXPRESSIONS, ACCESSORIES, CATEGORIES.
-- `placeholderkit/react`: `<Avatar>` (person), `<AnimalAvatar>`, `<Placeholder>`, `<Logo>`. Hook-free, so they work in React Server Components, SSR and the client.
-- `placeholderkit/icons`: `<Icon name="shopping-cart" />`, wrapping lucide-react (optional peer dependency) with a fallback for unknown names.
+- `@placeholderkit/core`: core functions: personSvg, animalSvg, placeholderSvg, logoSvg, avatarUrl (person), animalUrl, placeholderUrl, logoUrl, fakeCompanyName, toDataUri, parseRatio, plus ANIMALS, EXPRESSIONS, ACCESSORIES, CATEGORIES.
+- `@placeholderkit/core/react`: `<Avatar>` (person), `<AnimalAvatar>`, `<Placeholder>`, `<Logo>`. Hook-free, so they work in React Server Components, SSR and the client.
+- `@placeholderkit/core/icons`: `<Icon name="shopping-cart" />`, wrapping lucide-react (optional peer dependency) with a fallback for unknown names.
 - `dist/placeholderkit.global.js`: script-tag build exposing `window.PlaceholderKit`; fills `<img data-placeholderkit="avatar|animal|placeholder|logo" data-seed=...>`, including images added later (MutationObserver).
 - Content: person avatars (6 skin tones, 7 hairstyles, expressions, glasses); 9 animals × 6 expressions × 7 accessories; 20 placeholder categories with palettes and glyphs; logos with 9 mark styles and generated names.
 - Source: `src/core/{util,person,animals,placeholder,logo,index,global}.ts`, `src/react/{index,icons}.tsx`.

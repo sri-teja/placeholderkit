@@ -1,5 +1,5 @@
-import { Avatar, AnimalAvatar, Placeholder, Logo } from "placeholderkit/react";
-import { Icon } from "placeholderkit/icons";
+import { Avatar, AnimalAvatar, Placeholder, Logo } from "@placeholderkit/core/react";
+import { Icon } from "@placeholderkit/core/icons";
 
 const products = [
   { id: "p1", name: "Trail runner", price: "$120" },

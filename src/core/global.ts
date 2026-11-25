@@ -1,6 +1,6 @@
 /**
  * Script-tag build for plain HTML. Usage:
- *   <script src="https://cdn.jsdelivr.net/npm/placeholderkit/dist/placeholderkit.global.js"></script>
+ *   <script src="https://cdn.jsdelivr.net/npm/@placeholderkit/core/dist/placeholderkit.global.js"></script>
  *   <img data-placeholderkit="avatar" data-seed="ana@acme.com">
  *   <img data-placeholderkit="animal" data-seed="user-7" data-animal="fox">
  *   <img data-placeholderkit="placeholder" data-seed="dish-3" data-category="food" data-ratio="4/3">

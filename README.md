@@ -1,5 +1,7 @@
 # placeholderkit
 
+[![npm](https://img.shields.io/npm/v/@placeholderkit/core)](https://www.npmjs.com/package/@placeholderkit/core)
+
 Placeholder images, avatars, logos and icons for React and HTML. Built for prototypes, mockups and AI-built apps.
 
 - **Same seed, same image.** Pass a user id, email or product id and get a stable image every render.
@@ -11,14 +13,14 @@ Placeholder images, avatars, logos and icons for React and HTML. Built for proto
 ## Install
 
 ```bash
-npm install placeholderkit
+npm install @placeholderkit/core
 ```
 
 ## React
 
 ```jsx
-import { Avatar, AnimalAvatar, Placeholder, Logo } from "placeholderkit/react";
-import { Icon } from "placeholderkit/icons"; // optional, needs lucide-react
+import { Avatar, AnimalAvatar, Placeholder, Logo } from "@placeholderkit/core/react";
+import { Icon } from "@placeholderkit/core/icons"; // optional, needs lucide-react
 
 <Avatar seed={user.email} />                         // person avatar
 <AnimalAvatar seed={user.id} animal="fox" size={64} /> // the same fox, different look per user
@@ -34,7 +36,7 @@ The components have no hooks, so they work in Server Components, SSR and the cli
 ## Plain HTML (no build step)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/placeholderkit/dist/placeholderkit.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@placeholderkit/core/dist/placeholderkit.global.js"></script>
 
 <img data-placeholderkit="avatar" data-seed="ana@acme.com" width="40" height="40">
 <img data-placeholderkit="animal" data-seed="user-7" data-animal="owl" width="64" height="64">
@@ -47,7 +49,7 @@ Images added to the page later (by a framework or your own script) fill in autom
 ## Any framework: functions
 
 ```js
-import { avatarUrl, animalUrl, placeholderUrl, logoUrl, animalSvg } from "placeholderkit";
+import { avatarUrl, animalUrl, placeholderUrl, logoUrl, animalSvg } from "@placeholderkit/core";
 
 avatarUrl({ seed: "ana" });                                 // person; data:image/svg+xml,... for <img src> or CSS
 animalUrl({ seed: "u7", animal: "panda" });
@@ -100,7 +102,7 @@ animalSvg({ seed: "u7", animal: "cat" });                  // raw SVG string
 
 ## For AI website builders
 
-This package ships an [`llms.txt`](llms.txt) describing the full API in a compact form. Point your agent at `https://cdn.jsdelivr.net/npm/placeholderkit/llms.txt`.
+This package ships an [`llms.txt`](llms.txt) describing the full API in a compact form. Point your agent at `https://cdn.jsdelivr.net/npm/@placeholderkit/core/llms.txt`.
 
 ## Roadmap
 
