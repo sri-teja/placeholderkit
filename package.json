@@ -1,7 +1,7 @@
 {
   "name": "@placeholderkit/core",
   "version": "0.2.0",
-  "description": "Placeholder images, avatars, logos and icons for React and HTML. Deterministic, offline SVG for prototypes, mockups and AI-built apps.",
+  "description": "Placeholder images, avatars, logos, icons and fake business data for React and HTML. Deterministic and offline, for prototypes, mockups and AI-built apps.",
   "license": "MIT",
   "engines": {
     "node": ">=22"
@@ -21,6 +21,9 @@
   "types": "./dist/index.d.ts",
   "unpkg": "./dist/placeholderkit.global.js",
   "jsdelivr": "./dist/placeholderkit.global.js",
+  "bin": {
+    "placeholderkit": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -37,12 +40,17 @@
       "import": "./dist/icons.js",
       "require": "./dist/icons.cjs"
     },
+    "./data": {
+      "types": "./dist/data.d.ts",
+      "import": "./dist/data.js",
+      "require": "./dist/data.cjs"
+    },
     "./global": "./dist/placeholderkit.global.js",
     "./llms.txt": "./llms.txt",
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup && esbuild src/core/global.ts --bundle --minify --format=iife --global-name=PlaceholderKit --outfile=dist/placeholderkit.global.js",
+    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsup && esbuild src/core/global.ts --bundle --minify --format=iife --global-name=PlaceholderKit --outfile=dist/placeholderkit.global.js",
     "typecheck": "tsc --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
     "gallery": "esbuild scripts/render.ts --bundle --platform=node --external:@resvg/resvg-js --outfile=scripts/.render.cjs && node scripts/.render.cjs",
@@ -94,7 +102,12 @@
     "identicon",
     "lorem-ipsum",
     "ai",
-    "llm"
+    "llm",
+    "fake-data",
+    "fake-business-data",
+    "seed-data",
+    "dashboard-data",
+    "faker"
   ],
   "homepage": "https://sri-teja.github.io/placeholderkit/",
   "repository": {

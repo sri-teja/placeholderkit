@@ -35,13 +35,21 @@ const eye = (x: number) =>
   `<ellipse cx="${x}" cy="${EYE_Y}" rx="2.8" ry="3.3" fill="${INK}"/>` +
   `<circle cx="${x + 1}" cy="${EYE_Y - 1.3}" r="1.1" fill="#fff"/><circle cx="${x - 0.9}" cy="${EYE_Y + 1.2}" r=".5" fill="#fff" opacity=".85"/>`;
 
+/** Backgrounds far enough from each face color; computed once per color (there are only six). */
+const BG_FOR_SKIN = /* @__PURE__ */ new Map<string, readonly string[]>();
+function backgroundsFor(skin: string): readonly string[] {
+  let list = BG_FOR_SKIN.get(skin);
+  if (!list) BG_FOR_SKIN.set(skin, (list = BACKGROUNDS.filter((c) => colorDistance(skin, c) >= MIN_BG_DISTANCE)));
+  return list;
+}
+
 export function personSvg(opts: PersonOptions): string {
   const { seed, shape = "circle" } = opts;
   const r = createRng(seed, "person");
   const skin = r.pick(SKIN);
   const hair = r.pick(HAIR);
   const shirt = r.pick(SHIRT);
-  const bgChoices = BACKGROUNDS.filter((c) => colorDistance(skin, c) >= MIN_BG_DISTANCE);
+  const bgChoices = backgroundsFor(skin);
   const bg = opts.background ?? r.pick(bgChoices.length ? bgChoices : BACKGROUNDS);
   const style = opts.hairstyle ?? r.weighted(HAIRSTYLES.map((h) => [h, h === "none" ? 0.5 : 1] as const));
   const eyes = r.weighted([["dot", 3], ["happy", 1.5], ["glasses", 1.2]] as const);

@@ -11,9 +11,10 @@ Everything is generated locally: no network, works offline and in sandboxes, and
 - Now: a single package with subpath exports. Later, if modules get large or need their own dependencies, move to a monorepo with `@placeholderkit/*` scoped packages while keeping `@placeholderkit/core` as the all-in-one package that re-exports them, so existing imports keep working.
 - Distribution: GitHub, npm, jsDelivr (automatic from npm), and `llms.txt` so AI coding tools learn the API. Package description and keywords are chosen for search ("placeholder", "placeholder-image", "placeholder-avatar", "dummy-image", "mock-data", "prototype").
 
-## Current state (v0.1.0, published to npm as @placeholderkit/core on 2026-11-25)
+## Current state (0.2.0 on npm as @placeholderkit/core; the data module is unreleased on branch data-module)
 - `@placeholderkit/core`: core functions: personSvg, animalSvg, placeholderSvg, logoSvg, avatarUrl (person), animalUrl, placeholderUrl, logoUrl, fakeCompanyName, toDataUri, parseRatio, plus ANIMALS, EXPRESSIONS, ACCESSORIES, CATEGORIES.
 - `@placeholderkit/core/react`: `<Avatar>` (person), `<AnimalAvatar>`, `<Placeholder>`, `<Logo>`. Hook-free, so they work in React Server Components, SSR and the client.
+- `@placeholderkit/core/data`: `createWorld({ seed, industry: "ecommerce"|"saas", size, now, locale, currency, vertical, product })`, `toJSON`, `toCSV`, `toSQL`; CLI `placeholderkit data` (dist/cli.js). Source in `src/data/` (world.ts ids/time/money, locale.ts, text.ts, ecommerce.ts, saas.ts, export.ts, cli.ts, lists/). Every entity has its own RNG stream, so record i is identical across sizes. `test/data.test.mjs` covers the realism rules; SQL output is loaded with node:sqlite.
 - `@placeholderkit/core/icons`: `<Icon name="shopping-cart" />`, wrapping lucide-react (optional peer dependency) with a fallback for unknown names.
 - `dist/placeholderkit.global.js`: script-tag build exposing `window.PlaceholderKit`; fills `<img data-placeholderkit="avatar|animal|placeholder|logo" data-seed=...>`, including images added later (MutationObserver).
 - Content: person avatars (6 skin tones, 7 hairstyles, expressions, glasses); 9 animals × 6 expressions × 7 accessories; 20 placeholder categories with palettes and glyphs; logos with 9 mark styles and generated names.
