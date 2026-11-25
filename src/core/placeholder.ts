@@ -25,7 +25,7 @@ const GLYPHS = {
 } as const;
 
 export type Category = keyof typeof GLYPHS;
-export const CATEGORIES = Object.keys(GLYPHS) as Category[];
+export const CATEGORIES = /* @__PURE__ */ Object.keys(GLYPHS) as Category[];
 
 /** Two-tone palettes per category so each kind of content has a recognizable mood. */
 const PALETTES: Record<Category, [string, string][]> = {
