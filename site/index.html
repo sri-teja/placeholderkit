@@ -91,6 +91,7 @@
         <p class="eyebrow">The kit</p>
         <h2 id="h-explore">Everything a mockup needs, <em>nothing to download.</em></h2>
         <p>Pick a style, then click any image to copy its code. The images use the seed from the top of the page.</p>
+        <p class="guide-links">Guides: <a href="react-avatar-from-user-id/">avatars from a user ID</a> · <a href="nextjs-placeholder-images/">placeholder images in Next.js</a> · <a href="fake-company-logo-generator/">fake company logos</a></p>
       </div>
 
       <div class="explorer reveal">
@@ -125,7 +126,7 @@
       <div class="section-head reveal">
         <p class="eyebrow">New: fake data</p>
         <h2 id="h-data">A whole business, <em>one function call.</em></h2>
-        <p>Customers, orders and reviews for a store, or accounts, plans, invoices and activity for a SaaS. Every number adds up, and the images are built in. It uses the same seed as the rest of the page.</p>
+        <p>Customers, orders and reviews for a store, or accounts, plans, invoices and activity for a SaaS. Every number adds up, and the images are built in. It uses the same seed as the rest of the page. <a href="mock-ecommerce-data/">Mock ecommerce data guide</a>.</p>
       </div>
       <div class="data reveal" id="data-card">
         <div class="data-head">
@@ -163,7 +164,7 @@
         <div class="feature reveal">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10H7z"/><path d="M3 7h2M3 12h2M3 17h2M19 7h2M19 12h2M19 17h2M7 3v2M12 3v2M17 3v2M7 19v2M12 19v2M17 19v2"/></svg></div>
           <h3>Same seed, same image</h3>
-          <p>Pass a user id, email or slug. You get the same picture on every render, on the server and in the browser.</p>
+          <p>Pass a user id, email or slug. You get the same picture on every render, on the server and in the browser. <a href="react-avatar-from-user-id/">Default avatars from a user ID in React</a></p>
         </div>
         <div class="feature reveal">
           <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M8.5 16.4a5 5 0 0 1 7 0M5 12.9a10 10 0 0 1 5.2-2.8M19 12.9a10 10 0 0 0-2.3-1.6M2 8.8a15 15 0 0 1 4.2-2.6M22 8.8A15 15 0 0 0 10.7 5M12 20h.01"/></svg></div>
@@ -233,8 +234,8 @@
       <div class="faq reveal">
         <details><summary>Is it free to use?</summary><p>Yes. placeholderkit is open source under the MIT license, for personal and commercial projects.</p></details>
         <details><summary>Does it load images from a server?</summary><p>No. Every image is generated as SVG by the package itself and returned as a data URL. There are no requests, so it works offline and never breaks.</p></details>
-        <details><summary>What should I use as the seed?</summary><p>Anything stable that identifies the thing being shown: a user id, an email, a product slug. The same seed always gives the same image, so lists don't reshuffle between renders.</p></details>
-        <details><summary>Does it work with Next.js Server Components?</summary><p>Yes. The React components use no hooks or browser APIs, so they render in Server Components, during SSR and on the client.</p></details>
+        <details><summary>What should I use as the seed?</summary><p>Anything stable that identifies the thing being shown: a user id, an email, a product slug. The same seed always gives the same image, so lists don't reshuffle between renders. <a href="react-avatar-from-user-id/">How to give every user a default avatar from their ID in React</a>.</p></details>
+        <details><summary>Does it work with Next.js Server Components?</summary><p>Yes. The React components use no hooks or browser APIs, so they render in Server Components, during SSR and on the client. <a href="nextjs-placeholder-images/">Placeholder images in Next.js, step by step</a>.</p></details>
         <details><summary>Which icons can I use?</summary><p><code>&lt;Icon name="shopping-cart" /&gt;</code> takes any Lucide icon name and shows a fallback for unknown names. It needs <code>lucide-react</code> installed.</p></details>
       </div>
     </div>

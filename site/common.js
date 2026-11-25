@@ -88,5 +88,17 @@
     } else footer.classList.add("playing");
   }
 
-  window.PKSite = { fillTrain: fillTrain, copy: copy, toast: toast };
+  /* code highlighting for guide pages: strings, keywords and // comments, in one left-to-right pass */
+  var TOKENS = /(\/\/[^\n]*)|("[^"\n]*")|\b(import|from|export|function|return|const|npx|npm|install)\b/g;
+  function highlight(code) {
+    var html = code.replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; });
+    return html.replace(TOKENS, function (m, line, str) { return '<span class="' + (line ? "tok-c" : str ? "tok-s" : "tok-k") + '">' + m + "</span>"; });
+  }
+  /* guide pages: [data-copy-pre="id"] copies that element's text; <pre data-hl> gets highlighted */
+  document.querySelectorAll("[data-copy-pre]").forEach(function (b) {
+    b.addEventListener("click", function () { copy($(b.dataset.copyPre).textContent, "Copied"); });
+  });
+  document.querySelectorAll("pre[data-hl]").forEach(function (pre) { pre.innerHTML = highlight(pre.textContent); });
+
+  window.PKSite = { fillTrain: fillTrain, copy: copy, toast: toast, highlight: highlight };
 })();

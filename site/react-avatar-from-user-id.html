@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Default avatar from a user ID or email in React · placeholderkit</title>
+<meta name="description" content="Give every user without a profile picture a stable, unique avatar in React. Pass their ID or email to one component: no network, no image hosting, same user always gets the same face.">
+<link rel="canonical" href="{{SITE_URL}}react-avatar-from-user-id/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Default avatar from a user ID or email in React">
+<meta property="og:description" content="One component turns a user ID or email into a stable SVG avatar. No network, works in Server Components.">
+<meta property="og:url" content="{{SITE_URL}}react-avatar-from-user-id/">
+<meta property="og:image" content="{{SITE_URL}}react-avatar-from-user-id/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F12" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;650;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+{{JSONLD}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!--#include header-->
+<main id="main" class="container guide">
+  <div class="cl-head">
+    <p class="eyebrow">Guide · React</p>
+    <h1>Default avatars from a user ID or email, in React</h1>
+    <p>Pass a user's ID or email to <code>&lt;Avatar&gt;</code> and every account without a profile picture gets its own avatar, the same one on every render, with no network requests.</p>
+  </div>
+
+  <div class="ua-demo" id="demo">
+    <div class="ua-try">
+      <label class="ua-label" for="ua-seed">User ID or email</label>
+      <input class="ua-input" id="ua-seed" value="ana@acme.com" autocomplete="off" spellcheck="false">
+      <div class="ua-out" aria-live="polite">
+        <img id="ua-big" src="{{AVATAR:ana@acme.com}}" alt="Avatar for ana@acme.com" width="96" height="96">
+        <img id="ua-mid" src="{{AVATAR:ana@acme.com}}" alt="" width="48" height="48">
+        <img id="ua-small" src="{{AVATAR:ana@acme.com}}" alt="" width="28" height="28">
+        <p class="ua-note">Same input, same avatar, at any size.</p>
+      </div>
+      <div class="control">
+        <span>Shape</span>
+        <div class="chips" role="group" aria-label="Shape" id="ua-shapes">
+          <button type="button" class="chip" aria-pressed="true" data-shape="circle">circle</button>
+          <button type="button" class="chip" aria-pressed="false" data-shape="rounded">rounded</button>
+          <button type="button" class="chip" aria-pressed="false" data-shape="square">square</button>
+        </div>
+      </div>
+      <div class="control">
+        <span>Example users: click one</span>
+        <ul class="ua-users" id="ua-users">
+          <li><button type="button" data-seed="ana@acme.com"><img src="{{AVATAR:ana@acme.com}}" alt="" width="36" height="36"><b>Ana Silva</b><code>ana@acme.com</code></button></li>
+          <li><button type="button" data-seed="usr_8f3c2a91"><img src="{{AVATAR:usr_8f3c2a91}}" alt="" width="36" height="36"><b>Kenji Mori</b><code>usr_8f3c2a91</code></button></li>
+          <li><button type="button" data-seed="5d1e7b04-3c9a-4f2e-9b61-0a8d2c7e4f13"><img src="{{AVATAR:5d1e7b04-3c9a-4f2e-9b61-0a8d2c7e4f13}}" alt="" width="36" height="36"><b>Priya Nair</b><code>5d1e7b04-3c9a-…</code></button></li>
+          <li><button type="button" data-seed="1042"><img src="{{AVATAR:1042}}" alt="" width="36" height="36"><b>Tom Becker</b><code>1042</code></button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ua-code">
+      <p class="ua-label">1. Install</p>
+      <div class="code">
+        <div class="code-head"><span class="code-label">Terminal</span>
+          <button class="copy" type="button" data-copy="npm install @placeholderkit/core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre data-hl>npm install @placeholderkit/core</pre>
+      </div>
+      <p class="ua-label">2. Render the avatar</p>
+      <div class="code">
+        <div class="code-head" role="tablist" aria-label="Code style">
+          <button class="code-tab" role="tab" aria-selected="true" data-lang="react">React</button>
+          <button class="code-tab" role="tab" aria-selected="false" data-lang="js">Image URL</button>
+          <button class="copy" type="button" id="ua-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre id="ua-snippet">import { Avatar } from "@placeholderkit/core/react";
+
+&lt;Avatar seed="ana@acme.com" size={48} alt="Ana Silva" /&gt;</pre>
+      </div>
+      <p class="ua-hint">The code updates as you type or pick a user. Output: the avatar on the left, as an inline SVG data URL.</p>
+    </div>
+  </div>
+
+  <section class="ua-section" aria-labelledby="h-real">
+    <h2 id="h-real">In a real app: photo first, generated avatar as the fallback</h2>
+    <p>Most apps have a photo for some users and nothing for the rest. Use the photo when there is one and generate the avatar from the user's ID otherwise. <code>avatarUrl()</code> returns a string, so it slots into an existing <code>&lt;img&gt;</code> or an avatar component from your UI library.</p>
+    <div class="code">
+      <div class="code-head"><span class="code-label">UserAvatar.jsx</span>
+        <button class="copy" type="button" data-copy-pre="ua-fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+      </div>
+      <pre id="ua-fallback" data-hl>import { avatarUrl } from "@placeholderkit/core";
+
+export function UserAvatar({ user, size = 40 }) {
+  return (
+    &lt;img
+      src={user.photoUrl ?? avatarUrl({ seed: user.id })}
+      alt={user.name}
+      width={size}
+      height={size}
+      style={{ borderRadius: "50%" }}
+    /&gt;
+  );
+}</pre>
+    </div>
+  </section>
+
+  <section class="ua-section" aria-labelledby="h-faq">
+    <h2 id="h-faq">Good to know</h2>
+    <div class="faq">
+      <details open><summary>Should I use the ID or the email?</summary><p>Prefer the user ID: it never changes, while people do change their email. The seed is used exactly as given, so if you use emails, trim and lower-case them first so <code>Ana@Acme.com</code> and <code>ana@acme.com</code> get the same avatar.</p></details>
+      <details><summary>Does it call a service like Gravatar?</summary><p>No. The avatar is drawn as SVG by the package and returned as a data URL. Nothing is fetched, nothing leaves the browser, and it works offline and in tests.</p></details>
+      <details><summary>Does it work in Next.js Server Components?</summary><p>Yes. <code>&lt;Avatar&gt;</code> uses no hooks or browser APIs, so it renders in Server Components, during SSR and on the client, with the same output everywhere.</p></details>
+      <details><summary>Can I get animals or other styles instead?</summary><p>Use <code>&lt;AnimalAvatar seed={user.id} /&gt;</code> for animal characters, and <code>artStyle="flat"</code> or <code>"outlined"</code> to change the drawing style. <a href="../#explore">See every option in the explorer</a>.</p></details>
+    </div>
+  </section>
+  {{RELATED}}
+</main>
+<!--#include footer-->
+<script src="../placeholderkit.global.js"></script>
+<script src="../common.js"></script>
+<script>
+(function () {
+  "use strict";
+  var K = window.PlaceholderKit, $ = function (id) { return document.getElementById(id); };
+  var NAMES = { "ana@acme.com": "Ana Silva", "usr_8f3c2a91": "Kenji Mori", "5d1e7b04-3c9a-4f2e-9b61-0a8d2c7e4f13": "Priya Nair", "1042": "Tom Becker" };
+  var state = { shape: "circle", lang: "react" };
+  var q = JSON.stringify, highlight = window.PKSite.highlight;
+  function seed() { return $("ua-seed").value.trim() || "ana@acme.com"; }
+  function snippet() {
+    var s = seed(), name = NAMES[s], shape = state.shape !== "circle" ? state.shape : null;
+    if (state.lang === "react") {
+      return 'import { Avatar } from "@placeholderkit/core/react";\n\n<Avatar seed=' + q(s) + (shape ? " shape=" + q(shape) : "") + " size={48}" + (name ? " alt=" + q(name) : "") + " />";
+    }
+    return 'import { avatarUrl } from "@placeholderkit/core";\n\nconst src = avatarUrl({ seed: ' + q(s) + (shape ? ", shape: " + q(shape) : "") + " });";
+  }
+  function render() {
+    var s = seed(), src = K.avatarUrl({ seed: s, shape: state.shape });
+    ["ua-big", "ua-mid", "ua-small"].forEach(function (id) { $(id).src = src; });
+    $("ua-big").alt = "Avatar for " + s;
+    document.querySelectorAll("#ua-users img").forEach(function (i) { i.src = K.avatarUrl({ seed: i.parentNode.dataset.seed, shape: state.shape }); });
+    document.querySelectorAll("#ua-users button").forEach(function (b) { b.setAttribute("aria-current", String(b.dataset.seed === s)); });
+    $("ua-snippet").innerHTML = highlight(snippet());
+  }
+  $("ua-seed").addEventListener("input", render);
+  document.querySelectorAll("#ua-users button").forEach(function (b) {
+    b.addEventListener("click", function () { $("ua-seed").value = b.dataset.seed; render(); });
+  });
+  document.querySelectorAll("[data-shape]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.shape = b.dataset.shape;
+      document.querySelectorAll("[data-shape]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      render();
+    });
+  });
+  document.querySelectorAll("[data-lang]").forEach(function (t) {
+    t.addEventListener("click", function () {
+      state.lang = t.dataset.lang;
+      document.querySelectorAll("[data-lang]").forEach(function (x) { x.setAttribute("aria-selected", String(x === t)); });
+      render();
+    });
+  });
+  $("ua-copy").addEventListener("click", function () { window.PKSite.copy(snippet(), "Copied"); });
+  render();
+})();
+</script>
+</body>
+</html>

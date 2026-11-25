@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mock ecommerce data generator: customers, products, orders · placeholderkit</title>
+<meta name="description" content="Generate a realistic fake online store in JavaScript: customers with avatars, products with images, orders, reviews and monthly revenue where every total adds up. Export as JSON, CSV or SQL.">
+<link rel="canonical" href="{{SITE_URL}}mock-ecommerce-data/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mock ecommerce data: customers, products and orders">
+<meta property="og:description" content="A whole fake store in one function call, with images built in. Export as JSON, CSV or SQL.">
+<meta property="og:url" content="{{SITE_URL}}mock-ecommerce-data/">
+<meta property="og:image" content="{{SITE_URL}}mock-ecommerce-data/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F12" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;650;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+{{JSONLD}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!--#include header-->
+<main id="main" class="container guide">
+  <div class="cl-head">
+    <p class="eyebrow">Guide · Fake data</p>
+    <h1>Mock ecommerce data: customers, products and orders</h1>
+    <p><code>createWorld()</code> builds a whole fake store in one call, with customers, products, orders, reviews and monthly revenue where every total adds up, and you can export it as JSON, CSV or SQL.</p>
+  </div>
+
+  <div class="ua-demo md-demo">
+    <div class="ua-try">
+      <label class="ua-label" for="md-seed">Seed (any text)</label>
+      <input class="ua-input" id="md-seed" value="demo" autocomplete="off" spellcheck="false">
+      <div class="control">
+        <span>Store type</span>
+        <div class="chips" role="group" aria-label="Store type" id="md-verticals">
+          <button type="button" class="chip" aria-pressed="true" data-vertical="">any</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="apparel">apparel</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="home">home</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="outdoor">outdoor</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="coffee">coffee</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="pets">pets</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="tech-accessories">tech accessories</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="books">books</button>
+          <button type="button" class="chip" aria-pressed="false" data-vertical="beauty">beauty</button>
+        </div>
+      </div>
+      <div class="code">
+        <div class="code-head"><span class="code-label">Terminal</span>
+          <button class="copy" type="button" data-copy="npm install @placeholderkit/core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre data-hl>npm install @placeholderkit/core</pre>
+      </div>
+      <div class="code">
+        <div class="code-head" role="tablist" aria-label="Code style">
+          <button class="code-tab" role="tab" aria-selected="true" data-lang="js">JavaScript</button>
+          <button class="code-tab" role="tab" aria-selected="false" data-lang="cli">Command line</button>
+          <button class="copy" type="button" data-copy-pre="md-snippet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre id="md-snippet" data-hl>import { createWorld } from "@placeholderkit/core/data";
+
+const store = createWorld({ seed: "demo", industry: "ecommerce" });
+
+store.products;   // 24 products with imageUrl, price, stock, rating
+store.customers;  // 25 customers with avatarUrl, email, address
+store.orders;     // 98 orders; total = subtotal + tax + shipping
+store.customer(store.orders[0].customerId);</pre>
+      </div>
+      <p class="ua-hint">The code follows the seed and store type. The store on the right is its output.</p>
+    </div>
+
+    <div class="ua-code md-out">
+      <div id="md-store" aria-live="polite"><!--store--></div>
+      <div class="code">
+        <div class="code-head"><span class="code-label">store.products[0]</span></div>
+        <pre id="md-record"><!--record--></pre>
+      </div>
+    </div>
+  </div>
+
+  <section class="ua-section" aria-labelledby="h-export">
+    <h2 id="h-export">Export it to a database or a file</h2>
+    <p>Records are plain JSON, so you can pass them straight to components or an API mock. To seed a database, turn the same world into SQL inserts for Postgres, MySQL or SQLite, or into one CSV per table.</p>
+    <div class="code">
+      <div class="code-head"><span class="code-label">seed.js</span>
+        <button class="copy" type="button" data-copy-pre="md-export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+      </div>
+      <pre id="md-export" data-hl>import { writeFileSync } from "node:fs";
+import { createWorld, toSQL, toCSV } from "@placeholderkit/core/data";
+
+const store = createWorld({ seed: "demo", industry: "ecommerce", size: "medium" });
+
+writeFileSync("seed.sql", toSQL(store, { dialect: "postgres" }));  // or "mysql", "sqlite"
+const tables = toCSV(store);  // { customers: "id,first_name,...", orders: "...", ... }</pre>
+    </div>
+  </section>
+
+  <section class="ua-section" aria-labelledby="h-faq">
+    <h2 id="h-faq">Good to know</h2>
+    <div class="faq">
+      <details open><summary>Do I get different data every run?</summary><p>No. The same seed and options always give the same store, so tests and screenshots stay stable. Change the seed for a different store. Customer and product <em>i</em> stay the same when you change <code>size</code>.</p></details>
+      <details><summary>How big can it get?</summary><p><code>size: "small"</code> has 25 customers, <code>"medium"</code> 500 and <code>"large"</code> 5,000, with orders and reviews to match.</p></details>
+      <details><summary>What makes it realistic?</summary><p>Every reference points to a real record, money is in integer cents and adds up exactly, nothing happens before the store was founded, order status matches its age, reviews come after delivery, and revenue grows with a holiday peak.</p></details>
+      <details><summary>Other countries, currencies or a SaaS business?</summary><p>Set <code>locale</code> (<code>en-US</code>, <code>en-GB</code>, <code>en-IN</code>) and <code>currency</code> (USD, GBP, EUR, INR). Use <code>industry: "saas"</code> for accounts, plans, invoices and activity instead. <a href="../#data">Try the SaaS version on the homepage</a>.</p></details>
+    </div>
+  </section>
+  {{RELATED}}
+</main>
+<!--#include footer-->
+<script src="../placeholderkit.global.js"></script>
+<script src="../common.js"></script>
+<script type="module">
+import { createWorld } from "../data.js";
+import { storeHtml, recordJson } from "../mock-data-view.js";
+
+const $ = (id) => document.getElementById(id);
+const state = { lang: "js", vertical: "" };
+const q = JSON.stringify;
+const seed = () => $("md-seed").value.trim() || "demo";
+const options = () => ({ seed: seed(), industry: "ecommerce", ...(state.vertical ? { vertical: state.vertical } : {}) });
+
+function snippet(w) {
+  const v = state.vertical ? `, vertical: ${q(state.vertical)}` : "";
+  if (state.lang === "cli") {
+    const flags = `--seed ${q(seed())}${state.vertical ? ` --vertical ${state.vertical}` : ""}`;
+    return `npx @placeholderkit/core data ${flags} > store.json\nnpx @placeholderkit/core data ${flags} --format csv --out ./seed\nnpx @placeholderkit/core data ${flags} --format sql --dialect postgres > seed.sql`;
+  }
+  return `import { createWorld } from "@placeholderkit/core/data";\n\nconst store = createWorld({ seed: ${q(seed())}, industry: "ecommerce"${v} });\n\n` +
+    `store.products;   // ${w.products.length} products with imageUrl, price, stock, rating\n` +
+    `store.customers;  // ${w.customers.length} customers with avatarUrl, email, address\n` +
+    `store.orders;     // ${w.orders.length} orders; total = subtotal + tax + shipping\n` +
+    `store.customer(store.orders[0].customerId);`;
+}
+let timer = 0;
+function render() {
+  const w = createWorld(options());
+  $("md-store").innerHTML = storeHtml(w);
+  $("md-record").textContent = recordJson(w.products[0]);
+  $("md-snippet").innerHTML = window.PKSite.highlight(snippet(w));
+}
+$("md-seed").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+document.querySelectorAll("[data-vertical]").forEach((b) => b.addEventListener("click", () => {
+  state.vertical = b.dataset.vertical;
+  document.querySelectorAll("[data-vertical]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  render();
+}));
+document.querySelectorAll("[data-lang]").forEach((t) => t.addEventListener("click", () => {
+  state.lang = t.dataset.lang;
+  document.querySelectorAll("[data-lang]").forEach((x) => x.setAttribute("aria-selected", String(x === t)));
+  render();
+}));
+render();
+</script>
+</body>
+</html>

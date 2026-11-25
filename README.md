@@ -37,6 +37,13 @@ import { Icon } from "@placeholderkit/core/icons"; // optional, needs lucide-rea
 
 The components have no hooks, so they work in Server Components, SSR and the client.
 
+Step-by-step guides with live demos:
+
+- [Default avatars from a user ID or email in React](https://sri-teja.github.io/placeholderkit/react-avatar-from-user-id/)
+- [Placeholder images in Next.js without external URLs](https://sri-teja.github.io/placeholderkit/nextjs-placeholder-images/)
+- [Fake company logos and names for mockups](https://sri-teja.github.io/placeholderkit/fake-company-logo-generator/)
+- [Mock ecommerce data: customers, products and orders](https://sri-teja.github.io/placeholderkit/mock-ecommerce-data/)
+
 ## Plain HTML (no build step)
 
 ```html

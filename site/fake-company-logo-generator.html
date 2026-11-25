@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fake company logo generator for mockups · placeholderkit</title>
+<meta name="description" content="Generate believable fake company names and logos for mockups, logo strips and customer tables. Type any text, get the same logo every time, as SVG or a React component.">
+<link rel="canonical" href="{{SITE_URL}}fake-company-logo-generator/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fake company logos and names for mockups">
+<meta property="og:description" content="Believable company names with matching logos, generated from any text. Download the SVG or render it in React.">
+<meta property="og:url" content="{{SITE_URL}}fake-company-logo-generator/">
+<meta property="og:image" content="{{SITE_URL}}fake-company-logo-generator/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F12" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;650;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+{{JSONLD}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!--#include header-->
+<main id="main" class="container guide">
+  <div class="cl-head">
+    <p class="eyebrow">Guide · Logos</p>
+    <h1>Fake company logos and names for mockups</h1>
+    <p>Type any text and get a believable company name with a matching logo, the same one every time, for logo strips, customer tables and dashboards.</p>
+  </div>
+
+  <div class="ua-demo">
+    <div class="ua-try">
+      <label class="ua-label" for="lg-seed">Seed (any text)</label>
+      <input class="ua-input" id="lg-seed" value="northwind" autocomplete="off" spellcheck="false">
+      <label class="ua-label" for="lg-name">Company name (optional)</label>
+      <input class="ua-input" id="lg-name" value="" placeholder="Generated: {{COMPANY:northwind}}" autocomplete="off" spellcheck="false">
+      <div class="lg-out" aria-live="polite">
+        <div class="lg-card"><img id="lg-full" src="{{LOGO:northwind|full}}" alt="{{COMPANY:northwind}} logo" height="40"></div>
+        <div class="lg-card lg-mark"><img id="lg-mark" src="{{LOGO:northwind|mark}}" alt="{{COMPANY:northwind}} logo mark" height="56"></div>
+      </div>
+      <div class="lg-dl">
+        <button class="btn btn-ghost" type="button" id="lg-dl-full">Download SVG</button>
+        <button class="btn btn-ghost" type="button" id="lg-dl-mark">Download mark</button>
+      </div>
+      <div class="control">
+        <span>A logo strip from six seeds: click one</span>
+        <div class="lg-strip" id="lg-strip">
+          <button type="button" data-seed="northwind"><img src="{{LOGO:northwind|full}}" alt="{{COMPANY:northwind}} logo" height="24"></button>
+          <button type="button" data-seed="globex"><img src="{{LOGO:globex|full}}" alt="{{COMPANY:globex}} logo" height="24"></button>
+          <button type="button" data-seed="initech"><img src="{{LOGO:initech|full}}" alt="{{COMPANY:initech}} logo" height="24"></button>
+          <button type="button" data-seed="umbrella"><img src="{{LOGO:umbrella|full}}" alt="{{COMPANY:umbrella}} logo" height="24"></button>
+          <button type="button" data-seed="hooli"><img src="{{LOGO:hooli|full}}" alt="{{COMPANY:hooli}} logo" height="24"></button>
+          <button type="button" data-seed="vandelay"><img src="{{LOGO:vandelay|full}}" alt="{{COMPANY:vandelay}} logo" height="24"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ua-code">
+      <p class="ua-label">1. Install</p>
+      <div class="code">
+        <div class="code-head"><span class="code-label">Terminal</span>
+          <button class="copy" type="button" data-copy="npm install @placeholderkit/core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre data-hl>npm install @placeholderkit/core</pre>
+      </div>
+      <p class="ua-label">2. Render the logo</p>
+      <div class="code">
+        <div class="code-head" role="tablist" aria-label="Code style">
+          <button class="code-tab" role="tab" aria-selected="true" data-lang="react">React</button>
+          <button class="code-tab" role="tab" aria-selected="false" data-lang="js">Image URL and name</button>
+          <button class="copy" type="button" data-copy-pre="lg-snippet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre id="lg-snippet" data-hl>import { Logo } from "@placeholderkit/core/react";
+
+&lt;Logo seed="northwind" height={40} /&gt;
+&lt;Logo seed="northwind" variant="mark" height={56} /&gt;</pre>
+      </div>
+      <p class="ua-hint">The code follows the seed and name you type. Its output is the logo on the left.</p>
+    </div>
+  </div>
+
+  <section class="ua-section" aria-labelledby="h-strip">
+    <h2 id="h-strip">A "trusted by" logo strip</h2>
+    <p>Give each customer a stable id as the seed. The name in each logo is generated from it, or pass <code>name</code> to use your own.</p>
+    <div class="code">
+      <div class="code-head"><span class="code-label">TrustedBy.jsx</span>
+        <button class="copy" type="button" data-copy-pre="lg-strip-code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+      </div>
+      <pre id="lg-strip-code" data-hl>import { Logo } from "@placeholderkit/core/react";
+
+const customers = ["northwind", "globex", "initech", "umbrella", "hooli", "vandelay"];
+
+export function TrustedBy() {
+  return (
+    &lt;div style={{ display: "flex", flexWrap: "wrap", gap: 32, alignItems: "center" }}&gt;
+      {customers.map((id) =&gt; &lt;Logo key={id} seed={id} height={24} /&gt;)}
+    &lt;/div&gt;
+  );
+}</pre>
+    </div>
+  </section>
+
+  <section class="ua-section" aria-labelledby="h-faq">
+    <h2 id="h-faq">Good to know</h2>
+    <div class="faq">
+      <details open><summary>Are these real companies?</summary><p>No. Names are put together from word lists, such as {{COMPANY:globex}} or {{COMPANY:initech}}. A generated name can still happen to match a real business, so check before using one anywhere public.</p></details>
+      <details><summary>What can I change?</summary><p>The <code>name</code> in the wordmark, the <code>variant</code> (<code>"full"</code> for mark and name, <code>"mark"</code> for the symbol alone), the mark's <code>color</code> and the <code>height</code>. The width follows the name's length.</p></details>
+      <details><summary>Will they work on a dark background?</summary><p>The wordmark text is dark, so put full logos on a light surface, or use <code>variant="mark"</code> on dark backgrounds.</p></details>
+      <details><summary>Can I get a whole fake customer list with logos?</summary><p>Yes. <a href="../mock-ecommerce-data/">createWorld()</a> builds connected fake business data, and its SaaS accounts come with logos already attached.</p></details>
+    </div>
+  </section>
+  {{RELATED}}
+</main>
+<!--#include footer-->
+<script src="../placeholderkit.global.js"></script>
+<script src="../common.js"></script>
+<script>
+(function () {
+  "use strict";
+  var K = window.PlaceholderKit, $ = function (id) { return document.getElementById(id); };
+  var state = { lang: "react" }, q = JSON.stringify;
+  function seed() { return $("lg-seed").value.trim() || "northwind"; }
+  function name() { return $("lg-name").value.trim(); }
+  function snippet() {
+    var s = seed(), n = name();
+    if (state.lang === "react") {
+      var np = n ? " name=" + q(n) : "";
+      return 'import { Logo } from "@placeholderkit/core/react";\n\n<Logo seed=' + q(s) + np + " height={40} />\n<Logo seed=" + q(s) + np + ' variant="mark" height={56} />';
+    }
+    var no = n ? ", name: " + q(n) : "";
+    var urls = "const src = logoUrl({ seed: " + q(s) + no + " });\nconst mark = logoUrl({ seed: " + q(s) + no + ', variant: "mark" });';
+    if (n) return 'import { logoUrl } from "@placeholderkit/core";\n\n' + urls;
+    return 'import { logoUrl, fakeCompanyName } from "@placeholderkit/core";\n\nconst name = fakeCompanyName(' + q(s) + "); // " + q(K.fakeCompanyName(s)) + "\n" + urls;
+  }
+  function opts(variant) { return { seed: seed(), name: name() || undefined, variant: variant }; }
+  function render() {
+    var label = (name() || K.fakeCompanyName(seed())) + " logo";
+    $("lg-full").src = K.logoUrl(opts("full")); $("lg-full").alt = label;
+    $("lg-mark").src = K.logoUrl(opts("mark")); $("lg-mark").alt = label + " mark";
+    $("lg-name").placeholder = "Generated: " + K.fakeCompanyName(seed());
+    document.querySelectorAll("#lg-strip button").forEach(function (b) { b.setAttribute("aria-current", String(b.dataset.seed === seed())); });
+    $("lg-snippet").innerHTML = window.PKSite.highlight(snippet());
+  }
+  function download(variant) {
+    var o = opts(variant), file = (o.name || K.fakeCompanyName(o.seed)).toLowerCase().replace(/[^a-z0-9]+/g, "-") + (variant === "mark" ? "-mark" : "") + ".svg";
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([K.logoSvg(o)], { type: "image/svg+xml" })); a.download = file;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+  $("lg-seed").addEventListener("input", render);
+  $("lg-name").addEventListener("input", render);
+  $("lg-dl-full").addEventListener("click", function () { download("full"); });
+  $("lg-dl-mark").addEventListener("click", function () { download("mark"); });
+  document.querySelectorAll("#lg-strip button").forEach(function (b) {
+    b.addEventListener("click", function () { $("lg-seed").value = b.dataset.seed; $("lg-name").value = ""; render(); });
+  });
+  document.querySelectorAll("[data-lang]").forEach(function (t) {
+    t.addEventListener("click", function () {
+      state.lang = t.dataset.lang;
+      document.querySelectorAll("[data-lang]").forEach(function (x) { x.setAttribute("aria-selected", String(x === t)); });
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>

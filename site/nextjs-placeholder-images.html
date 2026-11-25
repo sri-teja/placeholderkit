@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Placeholder images in Next.js without external URLs · placeholderkit</title>
+<meta name="description" content="Show product, food, travel and hero placeholder images in Next.js without a placeholder URL service. Rendered as inline SVG in Server Components: no next.config.js changes, no network requests.">
+<link rel="canonical" href="{{SITE_URL}}nextjs-placeholder-images/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Placeholder images in Next.js, without external URLs">
+<meta property="og:description" content="One component draws placeholder images as inline SVG. Works in Server Components, offline and in CI.">
+<meta property="og:url" content="{{SITE_URL}}nextjs-placeholder-images/">
+<meta property="og:image" content="{{SITE_URL}}nextjs-placeholder-images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F12" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;650;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+{{JSONLD}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<!--#include header-->
+<main id="main" class="container guide">
+  <div class="cl-head">
+    <p class="eyebrow">Guide · Next.js</p>
+    <h1>Placeholder images in Next.js, without external URLs</h1>
+    <p><code>&lt;Placeholder&gt;</code> draws product, food, travel and other content images as inline SVG, so they render in Server Components with no <code>next.config.js</code> changes and no network requests.</p>
+  </div>
+
+  <div class="ua-demo">
+    <div class="ua-try">
+      <div class="control">
+        <span>Category</span>
+        <div class="chips" role="group" aria-label="Category" id="nx-cats">
+          <button type="button" class="chip" aria-pressed="true" data-cat="product">product</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="food">food</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="travel">travel</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="fashion">fashion</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="real-estate">real estate</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="tech">tech</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="people">people</button>
+          <button type="button" class="chip" aria-pressed="false" data-cat="nature">nature</button>
+        </div>
+      </div>
+      <div class="control">
+        <span>Ratio</span>
+        <div class="chips" role="group" aria-label="Ratio" id="nx-ratios">
+          <button type="button" class="chip" aria-pressed="false" data-ratio="16/9">16/9</button>
+          <button type="button" class="chip" aria-pressed="true" data-ratio="4/3">4/3</button>
+          <button type="button" class="chip" aria-pressed="false" data-ratio="1/1">1/1</button>
+          <button type="button" class="chip" aria-pressed="false" data-ratio="3/4">3/4</button>
+        </div>
+      </div>
+      <div class="nx-grid" id="nx-grid" aria-live="polite">
+        <img src="{{PH:product-1|product|4/3}}" alt="product image" width="400" height="300">
+        <img src="{{PH:product-2|product|4/3}}" alt="product image" width="400" height="300">
+        <img src="{{PH:product-3|product|4/3}}" alt="product image" width="400" height="300">
+      </div>
+      <p class="ua-note">26 categories in all. <a href="../#explore">Browse them in the explorer</a>.</p>
+    </div>
+
+    <div class="ua-code">
+      <p class="ua-label">1. Install</p>
+      <div class="code">
+        <div class="code-head"><span class="code-label">Terminal</span>
+          <button class="copy" type="button" data-copy="npm install @placeholderkit/core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre data-hl>npm install @placeholderkit/core</pre>
+      </div>
+      <p class="ua-label">2. Use it in a page</p>
+      <div class="code">
+        <div class="code-head"><span class="code-label">app/page.jsx</span>
+          <button class="copy" type="button" data-copy-pre="nx-snippet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+        </div>
+        <pre id="nx-snippet" data-hl>import { Placeholder } from "@placeholderkit/core/react";
+
+export default function Page() {
+  return (
+    &lt;div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}&gt;
+      {["product-1", "product-2", "product-3"].map((id) =&gt; (
+        &lt;Placeholder key={id} seed={id} category="product" ratio="4/3" /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</pre>
+      </div>
+      <p class="ua-hint">This is a Server Component: no "use client" needed. The code follows the category and ratio you pick; the images on the left are its output.</p>
+    </div>
+  </div>
+
+  <section class="ua-section" aria-labelledby="h-why">
+    <h2 id="h-why">Why not a placeholder URL service?</h2>
+    <p>Hosted placeholder URLs are fine until they aren't. With <code>next/image</code> each image host has to be allowed in <code>images.remotePatterns</code> in <code>next.config.js</code>, and every image is a request to someone else's server: slow on a cold cache, broken offline, in CI and in sandboxed preview environments, and gone if the service changes.</p>
+    <p><code>&lt;Placeholder&gt;</code> renders a plain <code>&lt;img&gt;</code> whose source is an SVG data URL, about 1.5 KB per image in the HTML. There is no host to configure and nothing to fetch, and the same seed always gives the same picture, so server and client render identical markup.</p>
+  </section>
+
+  <section class="ua-section" aria-labelledby="h-more-uses">
+    <h2 id="h-more-uses">Hero images, captions and plain URLs</h2>
+    <p>Add a <code>label</code> to draw a caption on the image, or use <code>placeholderUrl()</code> where you need a string, such as a CSS background or an existing image component.</p>
+    <div class="code">
+      <div class="code-head"><span class="code-label">app/hero.jsx</span>
+        <button class="copy" type="button" data-copy-pre="nx-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy</button>
+      </div>
+      <pre id="nx-hero" data-hl>import { Placeholder } from "@placeholderkit/core/react";
+import { placeholderUrl } from "@placeholderkit/core";
+
+export function Hero() {
+  return &lt;Placeholder seed="home-hero" category="travel" ratio="21/9" label="Hero image" /&gt;;
+}
+
+export function Banner() {
+  const bg = placeholderUrl({ seed: "banner", category: "food", ratio: "3/1" });
+  return &lt;section style={{ backgroundImage: `url("${bg}")`, backgroundSize: "cover" }} /&gt;;
+}</pre>
+    </div>
+  </section>
+
+  <section class="ua-section" aria-labelledby="h-faq">
+    <h2 id="h-faq">Good to know</h2>
+    <div class="faq">
+      <details open><summary>Does it work with the App Router and Server Components?</summary><p>Yes. The React components use no hooks or browser APIs, so they render in Server Components, during SSR and on the client, with the same output everywhere.</p></details>
+      <details><summary>How do I swap in real images later?</summary><p>Replace <code>&lt;Placeholder&gt;</code> with your image or <code>next/image</code> and keep the same aspect ratio, so the layout doesn't move. Use a stable seed such as the product id so each slot keeps its picture until then.</p></details>
+      <details><summary>Does it work without React?</summary><p>Yes. <code>placeholderUrl()</code> works in any framework, and a script tag fills <code>&lt;img data-placeholderkit="placeholder"&gt;</code> in plain HTML. <a href="{{REPO_URL}}#readme">See the README</a>.</p></details>
+      <details><summary>Can I use it in a commercial project?</summary><p>Yes. placeholderkit is MIT licensed.</p></details>
+    </div>
+  </section>
+  {{RELATED}}
+</main>
+<!--#include footer-->
+<script src="../placeholderkit.global.js"></script>
+<script src="../common.js"></script>
+<script>
+(function () {
+  "use strict";
+  var K = window.PlaceholderKit, $ = function (id) { return document.getElementById(id); };
+  var state = { cat: "product", ratio: "4/3" };
+  var q = JSON.stringify;
+  function snippet() {
+    return 'import { Placeholder } from "@placeholderkit/core/react";\n\nexport default function Page() {\n  return (\n' +
+      '    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>\n' +
+      '      {["' + state.cat + '-1", "' + state.cat + '-2", "' + state.cat + '-3"].map((id) => (\n' +
+      '        <Placeholder key={id} seed={id} category=' + q(state.cat) + ' ratio=' + q(state.ratio) + ' />\n' +
+      '      ))}\n    </div>\n  );\n}';
+  }
+  function render() {
+    var imgs = $("nx-grid").querySelectorAll("img"), r = K.parseRatio(state.ratio);
+    imgs.forEach(function (img, i) {
+      img.src = K.placeholderUrl({ seed: state.cat + "-" + (i + 1), category: state.cat, ratio: state.ratio });
+      img.alt = state.cat + " image"; img.height = Math.round(400 / r);
+    });
+    $("nx-snippet").innerHTML = window.PKSite.highlight(snippet());
+  }
+  function group(attr, key) {
+    document.querySelectorAll("[data-" + attr + "]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state[key] = b.dataset[attr];
+        document.querySelectorAll("[data-" + attr + "]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        render();
+      });
+    });
+  }
+  group("cat", "cat"); group("ratio", "ratio");
+})();
+</script>
+</body>
+</html>
