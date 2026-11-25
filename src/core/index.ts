@@ -15,16 +15,12 @@ export type { LogoOptions } from "./logo";
 export { toDataUri, hash } from "./util";
 export type { Shape } from "./util";
 
-export type AvatarOptions =
-  | ({ kind?: "person" } & PersonOptions)
-  | ({ kind: "animal" } & AnimalOptions);
-
-/** One entry point for avatars: people by default, animals with kind: "animal". */
-export function avatarSvg(opts: AvatarOptions): string {
-  return opts.kind === "animal" ? animalSvg(opts) : personSvg(opts);
-}
-
-/** Ready-to-use URLs for <img src>, CSS background-image, Markdown, etc. */
-export const avatarUrl = (o: AvatarOptions) => toDataUri(avatarSvg(o));
+/**
+ * Ready-to-use URLs for <img src>, CSS background-image, Markdown, etc.
+ * Person and animal avatars are separate functions so an app that uses only one
+ * doesn't bundle the other's drawings.
+ */
+export const avatarUrl = (o: PersonOptions) => toDataUri(personSvg(o));
+export const animalUrl = (o: AnimalOptions) => toDataUri(animalSvg(o));
 export const placeholderUrl = (o: PlaceholderOptions) => toDataUri(placeholderSvg(o));
 export const logoUrl = (o: LogoOptions) => toDataUri(logoSvg(o));

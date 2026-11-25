@@ -14,6 +14,13 @@ test("different seeds give different avatars", () => {
   assert.ok(set.size > 190, `only ${set.size} unique of 200`);
 });
 
+test("avatarUrl draws people and animalUrl draws animals", () => {
+  const decode = (url) => decodeURIComponent(url.replace(/^data:image\/svg\+xml;charset=utf-8,/, ""));
+  assert.equal(decode(sp.avatarUrl({ seed: "ana" })), sp.personSvg({ seed: "ana" }));
+  assert.equal(decode(sp.animalUrl({ seed: "u7", animal: "owl" })), sp.animalSvg({ seed: "u7", animal: "owl" }));
+  assert.match(decode(sp.animalUrl({ seed: "u7", animal: "owl" })), /owl avatar/);
+});
+
 test("pinning an animal keeps the species across seeds", () => {
   for (let i = 0; i < 20; i++) assert.match(sp.animalSvg({ seed: `s${i}`, animal: "panda" }), /panda avatar/);
 });

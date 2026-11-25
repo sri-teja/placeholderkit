@@ -4,5 +4,6 @@ scripts/.render.cjs
 .DS_Store
 *.log
 *.tgz
+docs/gallery.svg
 CLAUDE.local.md
 docs/internal/

@@ -11,16 +11,9 @@ const svgUrl = (svg: string): string => toDataUri(svg);
 
 const px = (v: number | string) => (typeof v === "number" ? `${v}px` : v);
 
-export interface AvatarProps extends ImgProps {
+interface SquareImageProps extends ImgProps {
   /** Anything stable per user: id, email, name. Same seed = same avatar. */
   seed: string;
-  /** "person" (default) or "animal". Setting `animal` implies "animal". */
-  kind?: "person" | "animal";
-  /** Pin the species to get one character in many variations. */
-  animal?: Animal;
-  expression?: Expression;
-  accessory?: Accessory;
-  hairstyle?: Hairstyle;
   /** Pixels or any CSS length. Default 40. */
   size?: number | string;
   shape?: Shape;
@@ -28,18 +21,11 @@ export interface AvatarProps extends ImgProps {
   background?: string;
 }
 
-export function Avatar({
-  seed, kind, animal, expression, accessory, hairstyle, size = 40, shape = "circle", background, alt, style, ...rest
-}: AvatarProps) {
-  const isAnimal = kind === "animal" || animal !== undefined;
-  const svg = isAnimal
-    ? animalSvg({ seed, animal, expression, accessory, shape, background })
-    : personSvg({ seed, hairstyle, shape, background });
-  const src = svgUrl(svg);
+function squareImg(src: string, alt: string, size: number | string, style: React.CSSProperties | undefined, rest: ImgProps) {
   return (
     <img
       src={src}
-      alt={alt ?? (isAnimal ? `${animal ?? "Animal"} avatar` : "Avatar")}
+      alt={alt}
       width={typeof size === "number" ? size : undefined}
       height={typeof size === "number" ? size : undefined}
       draggable={false}
@@ -47,6 +33,31 @@ export function Avatar({
       {...rest}
     />
   );
+}
+
+export interface AvatarProps extends SquareImageProps {
+  hairstyle?: Hairstyle;
+}
+
+/** Person avatar. For animal characters use <AnimalAvatar>. */
+export function Avatar({ seed, hairstyle, size = 40, shape = "circle", background, alt, style, ...rest }: AvatarProps) {
+  const src = svgUrl(personSvg({ seed, hairstyle, shape, background }));
+  return squareImg(src, alt ?? "Avatar", size, style, rest);
+}
+
+export interface AnimalAvatarProps extends SquareImageProps {
+  /** Pin the species to get one character in many variations. Picked from the seed if omitted. */
+  animal?: Animal;
+  expression?: Expression;
+  accessory?: Accessory;
+}
+
+/** Animal character avatar (fox, cat, panda...). */
+export function AnimalAvatar({
+  seed, animal, expression, accessory, size = 40, shape = "circle", background, alt, style, ...rest
+}: AnimalAvatarProps) {
+  const src = svgUrl(animalSvg({ seed, animal, expression, accessory, shape, background }));
+  return squareImg(src, alt ?? `${animal ?? "Animal"} avatar`, size, style, rest);
 }
 
 export interface PlaceholderProps extends ImgProps {

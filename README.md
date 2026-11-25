@@ -17,11 +17,11 @@ npm install placeholderkit
 ## React
 
 ```jsx
-import { Avatar, Placeholder, Logo } from "placeholderkit/react";
+import { Avatar, AnimalAvatar, Placeholder, Logo } from "placeholderkit/react";
 import { Icon } from "placeholderkit/icons"; // optional, needs lucide-react
 
 <Avatar seed={user.email} />                         // person avatar
-<Avatar seed={user.id} animal="fox" size={64} />     // the same fox, different look per user
+<AnimalAvatar seed={user.id} animal="fox" size={64} /> // the same fox, different look per user
 <Placeholder seed={dish.id} category="food" ratio="4/3" />
 <Placeholder seed="hero" category="travel" ratio="21/9" label="Hero image" />
 <Logo seed="acme" name="Acme" height={28} />
@@ -47,10 +47,10 @@ Images added to the page later (by a framework or your own script) fill in autom
 ## Any framework: functions
 
 ```js
-import { avatarUrl, placeholderUrl, logoUrl, animalSvg } from "placeholderkit";
+import { avatarUrl, animalUrl, placeholderUrl, logoUrl, animalSvg } from "placeholderkit";
 
-avatarUrl({ seed: "ana" });                                 // data:image/svg+xml,... for <img src> or CSS
-avatarUrl({ kind: "animal", seed: "u7", animal: "panda" });
+avatarUrl({ seed: "ana" });                                 // person; data:image/svg+xml,... for <img src> or CSS
+animalUrl({ seed: "u7", animal: "panda" });
 placeholderUrl({ seed: "p1", category: "product", ratio: "1/1" });
 logoUrl({ seed: "acme", variant: "mark" });
 animalSvg({ seed: "u7", animal: "cat" });                  // raw SVG string
@@ -58,19 +58,20 @@ animalSvg({ seed: "u7", animal: "cat" });                  // raw SVG string
 
 ## Options
 
-### Avatar
+### Avatar and AnimalAvatar
+
+`<Avatar>` / `avatarUrl` draw people; `<AnimalAvatar>` / `animalUrl` draw animal characters. They're separate so an app that only uses one doesn't download the other's drawings.
 
 | Prop | Values | Default |
 |---|---|---|
 | `seed` | any string | required |
-| `kind` | `person`, `animal` | `person` (or `animal` if `animal` is set) |
-| `animal` | `fox`, `cat`, `bear`, `panda`, `rabbit`, `dog`, `owl`, `frog`, `penguin`, `koala` | picked from seed |
-| `expression` | `happy`, `joy`, `wink`, `sleepy`, `surprised`, `smirk` | picked from seed |
-| `accessory` | `none`, `glasses`, `party-hat`, `bow`, `headphones`, `crown`, `beanie` | picked from seed |
-| `hairstyle` (person) | `short`, `long`, `bun`, `curly`, `bob`, `buzz`, `none` | picked from seed |
 | `size` | number (px) or CSS length | `40` |
 | `shape` | `circle`, `rounded`, `square` | `circle` |
 | `background` | any color or `transparent` | picked from seed |
+| `hairstyle` (Avatar) | `short`, `long`, `bun`, `curly`, `bob`, `buzz`, `none` | picked from seed |
+| `animal` (AnimalAvatar) | `fox`, `cat`, `bear`, `panda`, `rabbit`, `dog`, `owl`, `frog`, `penguin`, `koala` | picked from seed |
+| `expression` (AnimalAvatar) | `happy`, `joy`, `wink`, `sleepy`, `surprised`, `smirk` | picked from seed |
+| `accessory` (AnimalAvatar) | `none`, `glasses`, `party-hat`, `bow`, `headphones`, `crown`, `beanie` | picked from seed |
 
 ### Placeholder
 

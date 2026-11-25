@@ -9,7 +9,7 @@ npm install placeholderkit
 
 ## React (import from "placeholderkit/react")
 <Avatar seed="ana@acme.com" />                                   person avatar, 40px circle
-<Avatar seed="user-7" animal="fox" size={64} />                  animal avatar; same species, varied look per seed
+<AnimalAvatar seed="user-7" animal="fox" size={64} />            animal avatar; same species, varied look per seed
 <Placeholder seed="dish-3" category="food" ratio="4/3" />        fills container width
 <Placeholder seed="hero" category="travel" ratio="21/9" label="Hero image" />
 <Logo seed="acme" name="Acme" height={28} />                     omit name for a generated fake company
@@ -24,7 +24,8 @@ Icons (import { Icon } from "placeholderkit/icons", requires lucide-react): <Ico
 <img data-placeholderkit="logo" data-seed="acme" data-name="Acme" height="28">
 
 ## Functions (import from "placeholderkit", or window.PlaceholderKit with the script tag)
-avatarUrl({ seed, kind?: "person"|"animal", animal?, shape? }) -> data URL
+avatarUrl({ seed, hairstyle?, shape?, background? }) -> data URL (person)
+animalUrl({ seed, animal?, expression?, accessory?, shape?, background? }) -> data URL
 placeholderUrl({ seed, category?, ratio?, label? }) -> data URL
 logoUrl({ seed, name?, variant?: "full"|"mark" }) -> data URL
 personSvg / animalSvg / placeholderSvg / logoSvg -> SVG string

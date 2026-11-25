@@ -1,4 +1,4 @@
-import { Avatar, Placeholder, Logo } from "placeholderkit/react";
+import { Avatar, AnimalAvatar, Placeholder, Logo } from "placeholderkit/react";
 import { Icon } from "placeholderkit/icons";
 
 const products = [
@@ -33,7 +33,7 @@ export default function Shop() {
       <h2>Reviews</h2>
       {["r1", "r2", "r3"].map((id) => (
         <div key={id} style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
-          <Avatar seed={id} animal="panda" size={40} />
+          <AnimalAvatar seed={id} animal="panda" size={40} />
           <p>Great quality, fast shipping.</p>
         </div>
       ))}

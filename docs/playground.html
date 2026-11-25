@@ -160,12 +160,12 @@ footer { margin-top: 56px; color: var(--muted); font-size: 15px; }
     try { localStorage.setItem("placeholderkit-seed", seed); } catch (e) {}
 
     var wall = [img(S.avatarUrl({ seed: seed }), "Person avatar for " + seed)];
-    wall.push(img(S.avatarUrl({ kind: "animal", seed: seed }), "Animal avatar for " + seed));
+    wall.push(img(S.animalUrl({ seed: seed }), "Animal avatar for " + seed));
     for (var i = 1; i <= 10; i++) wall.push(img(S.avatarUrl({ seed: seed + "#" + i }), "Person avatar"));
     fill($("wall"), wall);
 
     var an = [];
-    for (var j = 0; j < 12; j++) an.push(img(S.avatarUrl({ kind: "animal", animal: animal, seed: seed + ":" + j }), animal + " avatar"));
+    for (var j = 0; j < 12; j++) an.push(img(S.animalUrl({ animal: animal, seed: seed + ":" + j }), animal + " avatar"));
     fill($("animals"), an);
 
     fill($("places"), cats.map(function (c) {
@@ -186,9 +186,9 @@ footer { margin-top: 56px; color: var(--muted); font-size: 15px; }
     var q = JSON.stringify(seed);
     $("code").textContent =
       'npm install placeholderkit\n\n' +
-      'import { Avatar, Placeholder, Logo } from "placeholderkit/react";\n\n' +
+      'import { Avatar, AnimalAvatar, Placeholder, Logo } from "placeholderkit/react";\n\n' +
       '<Avatar seed=' + q + ' />\n' +
-      '<Avatar seed=' + q + ' animal="' + animal + '" size={64} />\n' +
+      '<AnimalAvatar seed=' + q + ' animal="' + animal + '" size={64} />\n' +
       '<Placeholder seed=' + q + ' category="food" ratio="16/10" />\n' +
       '<Logo seed=' + q + ' />\n\n' +
       '<!-- or plain HTML -->\n' +

@@ -30,10 +30,12 @@ const has = (js, key) => js.includes(MARKERS[key]);
 
 test("importing one component or function only bundles its own module", async () => {
   const cases = [
-    ['import { Avatar } from "./react.js"; console.log(Avatar);', ["person", "animals"], ["placeholder", "logo"]],
+    ['import { Avatar } from "./react.js"; console.log(Avatar);', ["person"], ["animals", "placeholder", "logo"]],
+    ['import { AnimalAvatar } from "./react.js"; console.log(AnimalAvatar);', ["animals"], ["person", "placeholder", "logo"]],
     ['import { Placeholder } from "./react.js"; console.log(Placeholder);', ["placeholder"], ["person", "animals", "logo"]],
     ['import { Logo } from "./react.js"; console.log(Logo);', ["logo"], ["person", "animals", "placeholder"]],
-    ['import { avatarUrl } from "./index.js"; console.log(avatarUrl);', ["person", "animals"], ["placeholder", "logo"]],
+    ['import { avatarUrl } from "./index.js"; console.log(avatarUrl);', ["person"], ["animals", "placeholder", "logo"]],
+    ['import { animalUrl } from "./index.js"; console.log(animalUrl);', ["animals"], ["person", "placeholder", "logo"]],
     ['import { placeholderUrl } from "./index.js"; console.log(placeholderUrl);', ["placeholder"], ["person", "animals", "logo"]],
     ['import { logoUrl } from "./index.js"; console.log(logoUrl);', ["logo"], ["person", "animals", "placeholder"]],
   ];
