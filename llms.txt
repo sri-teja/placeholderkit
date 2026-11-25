@@ -31,6 +31,20 @@ logoUrl({ seed, name?, variant?: "full"|"mark" }) -> data URL
 personSvg / animalSvg / placeholderSvg / logoSvg -> SVG string
 fakeCompanyName(seed) -> string
 
+## Fake data (import from "@placeholderkit/core/data")
+createWorld({ seed?, industry?: "ecommerce"|"saas", size?: "small"|"medium"|"large", now?: "2026-01-15", locale?, currency?, vertical?, product? }) -> world
+  sizes: small = 25 customers/accounts, medium = 500, large = 5000. Same options = same world. Money is integer minor units (cents).
+  ecommerce world: business, customers, products, orders (items, subtotal, tax, shipping, total, status), reviews, metrics { revenueByMonth, ordersByMonth, newCustomersByMonth, topProducts, totalRevenue, totalOrders, averageOrderValue, repeatCustomerRate }
+    helpers: customer(id), product(id), order(id), ordersFor(customerId), reviewsFor(productId), formatMoney(amount)
+  saas world: business, team, plans, accounts, users, subscriptions, invoices, activity (last 90 days, newest first), tickets, metrics { mrr, arr, churnRate, activeAccounts, trialingAccounts, arpa, mrrByMonth, newAccountsByMonth, churnedAccountsByMonth }
+    helpers: account(id), user(id), plan(id), usersFor(accountId), subscriptionFor(accountId), invoicesFor(accountId), activityFor(accountId), ticketsFor(accountId), formatMoney(amount)
+  images are ready data URLs: customer.avatarUrl, product.imageUrl, account.logoUrl, user.avatarUrl, business.logoUrl
+toJSON(world, { includeImages? }) / toCSV(world) -> { table: csv } / toSQL(world, { dialect: "postgres"|"mysql"|"sqlite" })
+CLI: npx @placeholderkit/core data --industry saas --size medium --format sql --dialect sqlite > seed.sql
+vertical (ecommerce): apparel, home, outdoor, coffee, pets, tech-accessories, books, beauty
+product (saas): analytics, project-management, crm, support-desk, hr, dev-tools
+locale: en-US, en-GB, en-IN; currency: USD, GBP, EUR, INR
+
 ## Allowed values
 animal: fox, cat, bear, panda, rabbit, dog, owl, penguin, koala
 expression: happy, joy, wink, sleepy, surprised, smirk
@@ -44,3 +58,4 @@ ratio: "16/9", "4:3", "1/1", or a number
 - Use a stable id as the seed (user id, product id, slug) so images do not change between renders.
 - For a list of users, use the same `animal` for every item to get a consistent set of one character.
 - Always keep a meaningful alt text; components set a sensible default.
+- For dashboards, tables and feeds, generate data with createWorld instead of hand-writing arrays; pass world.metrics series straight to charts.

@@ -40,7 +40,49 @@ function tables(world: World): Table[] {
       ] },
     ];
   }
-  throw new Error("placeholderkit/data: export for this industry is not available yet.");
+  return [
+    { name: "business", rows: (w) => [w.business], cols: [
+      c("id", "int", () => 1, { pk: true }), field("name", "text"), field("tagline", "text"), field("domain", "text"), field("product", "text"),
+      field("foundedAt", "time"), field("logoUrl", "text", { image: true }), field("logoMarkUrl", "text", { image: true }),
+    ] },
+    { name: "team", rows: (w) => w.team, cols: [
+      field("id", "text", { pk: true }), field("name", "text"), field("email", "text"), field("title", "text"), field("avatarUrl", "text", { image: true }),
+    ] },
+    { name: "plans", rows: (w) => w.plans, cols: [
+      field("id", "text", { pk: true }), field("name", "text"), field("monthlyPrice", "int"), field("annualPrice", "int"),
+      c("per_seat", "int", (r) => (r.perSeat ? 1 : 0)), c("features", "text", (r) => r.features.join("; ")),
+    ] },
+    // accounts.owner_id has no FK constraint: users reference accounts, so the constraint would be circular.
+    { name: "accounts", rows: (w) => w.accounts, cols: [
+      field("id", "text", { pk: true }), field("name", "text"), field("domain", "text"), field("industry", "text"), field("employees", "text"),
+      field("country", "text"), field("createdAt", "time"), field("ownerId", "text"), field("planId", "text", { ref: "plans" }),
+      field("status", "text"), field("mrr", "int"), field("logoUrl", "text", { image: true }),
+    ] },
+    { name: "users", rows: (w) => w.users, cols: [
+      field("id", "text", { pk: true }), field("accountId", "text", { ref: "accounts" }), field("firstName", "text"), field("lastName", "text"),
+      field("name", "text"), field("email", "text"), field("role", "text"), field("title", "text"), field("createdAt", "time"),
+      field("lastActiveAt", "time"), field("avatarUrl", "text", { image: true }),
+    ] },
+    { name: "subscriptions", rows: (w) => w.subscriptions, cols: [
+      field("id", "text", { pk: true }), field("accountId", "text", { ref: "accounts" }), field("planId", "text", { ref: "plans" }),
+      field("status", "text"), field("interval", "text"), field("seats", "int"), field("amount", "int"), field("mrr", "int"),
+      field("startedAt", "time"), field("trialEndsAt", "time"), field("currentPeriodStart", "time"), field("currentPeriodEnd", "time"), field("canceledAt", "time"),
+    ] },
+    { name: "invoices", rows: (w) => w.invoices, cols: [
+      field("id", "text", { pk: true }), field("number", "text"), field("accountId", "text", { ref: "accounts" }),
+      field("subscriptionId", "text", { ref: "subscriptions" }), field("periodStart", "time"), field("periodEnd", "time"), field("issuedAt", "time"),
+      field("subtotal", "int"), field("tax", "int"), field("total", "int"), field("status", "text"), field("paidAt", "time"),
+    ] },
+    { name: "activity", rows: (w) => w.activity, cols: [
+      field("id", "text", { pk: true }), field("accountId", "text", { ref: "accounts" }), field("userId", "text", { ref: "users" }),
+      field("type", "text"), field("message", "text"), field("createdAt", "time"),
+    ] },
+    { name: "tickets", rows: (w) => w.tickets, cols: [
+      field("id", "text", { pk: true }), field("number", "text"), field("accountId", "text", { ref: "accounts" }),
+      field("requesterId", "text", { ref: "users" }), field("assigneeId", "text", { ref: "team" }), field("subject", "text"), field("body", "text"),
+      field("status", "text"), field("priority", "text"), field("createdAt", "time"), field("updatedAt", "time"), field("solvedAt", "time"),
+    ] },
+  ];
 }
 
 const visible = (t: Table, includeImages: boolean) => t.cols.filter((col) => includeImages || !col.image);

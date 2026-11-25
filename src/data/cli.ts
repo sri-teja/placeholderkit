@@ -7,16 +7,20 @@ import type { SqlDialect, WorldOptions } from "@placeholderkit/core/data";
 
 const HELP = `Usage: placeholderkit data [options]
 
-Generate a fake business (customers, products, orders, reviews) for prototypes.
+Generate a fake business for prototypes: an online store (customers, products,
+orders, reviews) or a SaaS company (accounts, users, plans, invoices, activity, tickets).
 
 Options:
-  --industry   ecommerce (default; saas coming soon)
+  --industry   ecommerce | saas                  (default: ecommerce)
   --size       small | medium | large            (default: small)
   --seed       any text; same seed = same data   (default: placeholderkit)
   --locale     en-US | en-GB | en-IN             (default: en-US)
   --currency   USD | GBP | EUR | INR             (default: from locale)
   --now        reference date, e.g. 2026-01-15   (default: 2026-01-15)
-  --vertical   apparel | home | outdoor | coffee | pets | tech-accessories | books | beauty
+  --vertical   ecommerce store type: apparel | home | outdoor | coffee | pets |
+               tech-accessories | books | beauty  (default: from seed)
+  --product    saas product: analytics | project-management | crm | support-desk |
+               hr | dev-tools                     (default: from seed)
   --format     json | csv | sql                  (default: json)
   --dialect    postgres | mysql | sqlite         (sql only, default: postgres)
   --images     include data: URI image columns in csv/sql
@@ -24,7 +28,7 @@ Options:
 
 Examples:
   npx @placeholderkit/core data --size medium --seed demo > world.json
-  npx @placeholderkit/core data --format sql --dialect sqlite > seed.sql
+  npx @placeholderkit/core data --industry saas --format sql --dialect sqlite > seed.sql
   npx @placeholderkit/core data --format csv --out ./seed
 `;
 
@@ -52,7 +56,7 @@ export function run(argv: string[]): number {
   try {
     const world = createWorld({
       industry: str("industry"), size: str("size"), seed: str("seed"), locale: str("locale"),
-      currency: str("currency"), now: str("now"), vertical: str("vertical"),
+      currency: str("currency"), now: str("now"), vertical: str("vertical"), product: str("product"),
     } as WorldOptions);
     const format = str("format") ?? "json";
     const includeImages = flags.images === true;

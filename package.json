@@ -1,7 +1,7 @@
 {
   "name": "@placeholderkit/core",
   "version": "0.2.0",
-  "description": "Placeholder images, avatars, logos and icons for React and HTML. Deterministic, offline SVG for prototypes, mockups and AI-built apps.",
+  "description": "Placeholder images, avatars, logos, icons and fake business data for React and HTML. Deterministic and offline, for prototypes, mockups and AI-built apps.",
   "license": "MIT",
   "engines": {
     "node": ">=22"
@@ -102,7 +102,12 @@
     "identicon",
     "lorem-ipsum",
     "ai",
-    "llm"
+    "llm",
+    "fake-data",
+    "fake-business-data",
+    "seed-data",
+    "dashboard-data",
+    "faker"
   ],
   "homepage": "https://sri-teja.github.io/placeholderkit/",
   "repository": {

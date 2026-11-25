@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
-import { createWorld, toCSV, toJSON, toSQL, STORE_VERTICALS, LOCALES, DEFAULT_NOW } from "../dist/data.js";
+import { createWorld, toCSV, toJSON, toSQL, STORE_VERTICALS, SAAS_PRODUCTS, LOCALES, DEFAULT_NOW } from "../dist/data.js";
 
 const small = createWorld({ seed: "test" });
 const medium = createWorld({ seed: "test", size: "medium" });
@@ -229,4 +229,165 @@ test("CLI writes JSON and SQL", () => {
   db.exec(sql);
   assert.equal(db.prepare("SELECT COUNT(*) AS n FROM orders").get().n, small.orders.length);
   assert.throws(() => execFileSync(process.execPath, [cli, "data", "--size", "huge"], { stdio: "pipe" }), /unknown size/);
+});
+
+/* ------------------------------ SaaS ------------------------------ */
+
+const saas = createWorld({ industry: "saas", seed: "test" });
+const saasMedium = createWorld({ industry: "saas", seed: "test", size: "medium" });
+
+test("saas: deterministic, and account i with its users is the same at every size", () => {
+  assert.deepStrictEqual(createWorld({ industry: "saas", seed: "test", size: "medium" }), saasMedium);
+  const large = createWorld({ industry: "saas", seed: "test", size: "large" });
+  assert.deepStrictEqual(large.plans, saas.plans);
+  assert.deepStrictEqual(large.team, saas.team);
+  for (let i = 0; i < saas.accounts.length; i++) {
+    assert.deepStrictEqual(large.accounts[i], saas.accounts[i]);
+    assert.deepStrictEqual(large.subscriptions[i], saas.subscriptions[i]);
+    assert.deepStrictEqual(large.usersFor(saas.accounts[i].id), saas.usersFor(saas.accounts[i].id));
+  }
+});
+
+test("saas: referential integrity", () => {
+  for (const w of [saas, saasMedium]) {
+    for (const a of w.accounts) {
+      const owner = w.user(a.ownerId);
+      assert.ok(owner && owner.accountId === a.id && owner.role === "owner");
+      assert.ok(w.plan(a.planId));
+      const sub = w.subscriptionFor(a.id);
+      assert.ok(sub && sub.planId === a.planId && sub.status === a.status);
+      for (const u of w.usersFor(a.id)) assert.ok(u.email.endsWith("@" + a.domain), u.email);
+    }
+    assert.equal(w.subscriptions.length, w.accounts.length);
+    for (const u of w.users) assert.ok(w.account(u.accountId));
+    for (const inv of w.invoices) assert.ok(w.account(inv.accountId) && w.subscriptions.some((s) => s.id === inv.subscriptionId && s.accountId === inv.accountId));
+    for (const e of w.activity) {
+      assert.ok(w.account(e.accountId));
+      if (e.userId !== null) assert.equal(w.user(e.userId).accountId, e.accountId);
+    }
+    for (const t of w.tickets) {
+      assert.equal(w.user(t.requesterId).accountId, t.accountId);
+      if (t.assigneeId !== null) assert.ok(w.team.some((m) => m.id === t.assigneeId));
+    }
+  }
+});
+
+test("saas: invoices match plan prices; MRR adds up", () => {
+  for (const w of [saasMedium, createWorld({ industry: "saas", seed: "test", size: "medium", locale: "en-GB" }), createWorld({ industry: "saas", seed: "flat", product: "analytics", size: "medium", locale: "en-IN" })]) {
+    const [free, ...paid] = w.plans;
+    assert.equal(free.monthlyPrice, 0);
+    for (const p of w.plans) assert.equal(p.annualPrice, p.monthlyPrice * 10);
+    for (let k = 1; k < w.plans.length; k++) assert.ok(w.plans[k].monthlyPrice > w.plans[k - 1].monthlyPrice);
+    for (const inv of w.invoices) {
+      const sub = w.subscriptions.find((s) => s.id === inv.subscriptionId);
+      const prices = paid.map((p) => (sub.interval === "year" ? p.annualPrice : p.monthlyPrice));
+      assert.ok(prices.some((pr) => (paid[0].perSeat ? inv.subtotal % pr === 0 && inv.subtotal > 0 : inv.subtotal === pr)), `invoice ${inv.number} ${inv.subtotal} matches a plan price`);
+      assert.equal(inv.total, inv.subtotal + inv.tax);
+    }
+    for (const s of w.subscriptions) {
+      const live = s.status === "active" || s.status === "past_due";
+      const invs = w.invoicesFor(s.accountId);
+      if (live && invs.length) {
+        assert.equal(s.amount, invs.at(-1).subtotal);
+        assert.equal(s.mrr, s.interval === "year" ? Math.round(s.amount / 12) : s.amount);
+        if (paid[0].perSeat) assert.equal(s.amount, (s.interval === "year" ? w.plan(s.planId).annualPrice : w.plan(s.planId).monthlyPrice) * s.seats);
+      } else assert.equal(s.mrr, 0);
+      assert.equal(w.account(s.accountId).mrr, s.mrr);
+    }
+    assert.equal(w.metrics.mrr, w.subscriptions.reduce((a, s) => a + s.mrr, 0));
+    assert.equal(w.metrics.arr, w.metrics.mrr * 12);
+    assert.equal(w.metrics.mrrByMonth.at(-1).value, w.metrics.mrr);
+    assert.equal(w.metrics.newAccountsByMonth.reduce((a, m) => a + m.value, 0), w.accounts.length);
+  }
+});
+
+test("saas: time ordering and status rules", () => {
+  for (const w of [saas, saasMedium]) {
+    const now = ms(w.options.now), founded = ms(w.business.foundedAt);
+    for (const s of w.subscriptions) {
+      const started = ms(s.startedAt);
+      assert.ok(started > founded && started <= now);
+      if (s.trialEndsAt) assert.equal(ms(s.trialEndsAt) - started, 14 * DAY);
+      if (s.status === "trialing") assert.ok(ms(s.trialEndsAt) > now);
+      if (s.canceledAt) assert.ok(ms(s.canceledAt) > started && ms(s.canceledAt) <= now, "canceled after start");
+      assert.equal(s.status === "canceled", s.canceledAt !== null);
+      const invs = w.invoicesFor(s.accountId);
+      invs.forEach((inv, k) => {
+        assert.ok(ms(inv.issuedAt) >= ms(s.trialEndsAt) && ms(inv.issuedAt) <= now, "billed after the trial");
+        if (k > 0) assert.equal(inv.periodStart, invs[k - 1].periodEnd, "periods are contiguous");
+        if (inv.paidAt) assert.ok(ms(inv.paidAt) >= ms(inv.issuedAt) && ms(inv.paidAt) <= now);
+        if (inv.status === "past_due") assert.equal(s.status, "past_due");
+      });
+    }
+    for (const u of w.users) {
+      const acc = w.account(u.accountId);
+      assert.ok(ms(u.createdAt) >= ms(acc.createdAt) && ms(u.createdAt) <= now);
+      if (u.lastActiveAt) assert.ok(ms(u.lastActiveAt) >= ms(u.createdAt) && ms(u.lastActiveAt) <= now);
+    }
+    for (let k = 0; k < w.activity.length; k++) {
+      const t = ms(w.activity[k].createdAt);
+      assert.ok(t <= now && t >= now - 90 * DAY, "activity in the last 90 days");
+      if (k) assert.ok(t <= ms(w.activity[k - 1].createdAt), "newest first");
+      assert.ok(t >= ms(w.account(w.activity[k].accountId).createdAt) - 2 * DAY);
+    }
+    for (const t of w.tickets) {
+      assert.ok(ms(t.createdAt) <= now && ms(t.updatedAt) >= ms(t.createdAt) && ms(t.updatedAt) <= now);
+      assert.equal(t.solvedAt !== null, t.status === "solved" || t.status === "closed");
+      if (t.solvedAt) assert.ok(ms(t.solvedAt) > ms(t.createdAt));
+    }
+  }
+  const statuses = new Set(saasMedium.accounts.map((a) => a.status));
+  for (const s of ["trialing", "active", "past_due", "canceled"]) assert.ok(statuses.has(s), `has ${s} accounts`);
+});
+
+test("saas: monthly churn is 2-5% and MRR grows", () => {
+  for (const [seed, product] of [["churn-a", "crm"], ["churn-b", "analytics"], ["churn-c", "hr"]]) {
+    const w = createWorld({ industry: "saas", seed, product, size: "large" });
+    assert.ok(w.metrics.churnRate >= 0.02 && w.metrics.churnRate <= 0.05, `${product} churn ${(w.metrics.churnRate * 100).toFixed(2)}%`);
+    const series = w.metrics.mrrByMonth;
+    assert.ok(series.at(-1).value > series.at(-13).value, "MRR higher than a year ago");
+    assert.equal(w.metrics.churnedAccountsByMonth.reduce((a, m) => a + m.value, 0), w.subscriptions.filter((s) => s.canceledAt && w.invoicesFor(s.accountId).length).length);
+  }
+});
+
+test("saas: coherent text for every product", () => {
+  for (const product of SAAS_PRODUCTS) {
+    const w = createWorld({ industry: "saas", seed: "text", product, size: "medium" });
+    assert.equal(w.business.product, product);
+    for (const e of w.activity) assert.doesNotMatch(e.message, /\{|\}|undefined|  /);
+    for (const t of w.tickets) assert.doesNotMatch(`${t.subject} ${t.body}`, /\{|\}|undefined/);
+    for (const p of w.plans) assert.ok(p.features.length >= 2);
+    assert.ok(w.plans[3].features.length > w.plans[1].features.length, "higher plans list more features");
+  }
+});
+
+test("saas: ids and numbers are unique", () => {
+  for (const [list, prefix] of [[saasMedium.accounts, "acc"], [saasMedium.users, "usr"], [saasMedium.invoices, "inv"], [saasMedium.activity, "evt"], [saasMedium.tickets, "tkt"], [saasMedium.subscriptions, "sub"]]) {
+    assert.equal(new Set(list.map((x) => x.id)).size, list.length, `${prefix} unique`);
+    for (const x of list) assert.match(x.id, new RegExp(`^${prefix}_[0-9a-z]{6}$`));
+  }
+  assert.equal(new Set(saasMedium.invoices.map((i) => i.number)).size, saasMedium.invoices.length);
+  for (const i of saasMedium.invoices) assert.match(i.number, /^INV-\d{4}-\d{4}$/);
+  assert.equal(new Set(saasMedium.accounts.map((a) => a.name)).size, saasMedium.accounts.length, "company names unique");
+});
+
+test("saas: exports load into SQLite with foreign keys enforced", () => {
+  const db = new DatabaseSync(":memory:");
+  db.exec("PRAGMA foreign_keys = ON;");
+  db.exec(toSQL(saasMedium, { dialect: "sqlite" }));
+  for (const [t, n] of [["accounts", saasMedium.accounts.length], ["users", saasMedium.users.length], ["invoices", saasMedium.invoices.length], ["activity", saasMedium.activity.length], ["tickets", saasMedium.tickets.length]]) {
+    assert.equal(db.prepare(`SELECT COUNT(*) AS n FROM ${t}`).get().n, n, t);
+  }
+  assert.deepEqual(db.prepare("PRAGMA foreign_key_check").all(), []);
+  assert.equal(db.prepare("SELECT SUM(mrr) AS m FROM accounts").get().m, saasMedium.metrics.mrr);
+  db.close();
+  assert.deepEqual(Object.keys(toCSV(saas)), ["business", "team", "plans", "accounts", "users", "subscriptions", "invoices", "activity", "tickets"]);
+  assert.doesNotMatch(JSON.stringify(toJSON(saas, { includeImages: false })), /data:image/);
+});
+
+test("saas: medium world generates in reasonable time", () => {
+  const t = performance.now();
+  createWorld({ industry: "saas", seed: "perf", size: "medium" });
+  const elapsed = performance.now() - t;
+  assert.ok(elapsed < 300, `saas medium took ${elapsed.toFixed(1)} ms`);
 });

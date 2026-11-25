@@ -2,6 +2,7 @@
 // Run `npm run site` (builds the package first). Preview: `npx serve _site`.
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync } from "node:fs";
 import { Resvg } from "@resvg/resvg-js";
+import { build } from "esbuild";
 import { animalSvg, personSvg, placeholderSvg } from "../dist/index.js";
 
 const OUT = "_site";
@@ -16,6 +17,8 @@ const html = readFileSync("site/index.html", "utf8")
   .replaceAll("{{SITE_URL}}", SITE_URL);
 writeFileSync(`${OUT}/index.html`, html);
 copyFileSync("dist/placeholderkit.global.js", `${OUT}/placeholderkit.global.js`);
+// The fake-data module as one ES module, loaded on demand by the "Fake data" section.
+await build({ entryPoints: ["dist/data.js"], bundle: true, minify: true, format: "esm", outfile: `${OUT}/data.js`, logLevel: "error" });
 copyFileSync("llms.txt", `${OUT}/llms.txt`);
 writeFileSync(`${OUT}/.nojekyll`, "");
 
