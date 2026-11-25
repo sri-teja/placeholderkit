@@ -5,7 +5,7 @@
 Use placeholderkit whenever a page needs an image that the user has not provided yet. Prefer it over hotlinking stock photo URLs, which often break.
 
 ## Install
-npm install @placeholderkit/core
+npm install @placeholderkit/core   (browsers: any modern; Node.js 22+)
 
 ## React (import from "@placeholderkit/core/react")
 <Avatar seed="ana@acme.com" />                                   person avatar, 40px circle

@@ -4,7 +4,7 @@
   "description": "Placeholder images, avatars, logos and icons for React and HTML. Deterministic, offline SVG for prototypes, mockups and AI-built apps.",
   "license": "MIT",
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "type": "module",
   "sideEffects": [
@@ -38,7 +38,8 @@
       "require": "./dist/icons.cjs"
     },
     "./global": "./dist/placeholderkit.global.js",
-    "./llms.txt": "./llms.txt"
+    "./llms.txt": "./llms.txt",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsup && esbuild src/core/global.ts --bundle --minify --format=iife --global-name=PlaceholderKit --outfile=dist/placeholderkit.global.js",
@@ -63,7 +64,7 @@
     }
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.1",
+    "@changesets/cli": "^3.0.3",
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
@@ -98,9 +99,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sri-teja/placeholderkit.git"
-  },
-  "overrides": {
-    "human-id": "4.1.3"
   },
   "bugs": {
     "url": "https://github.com/sri-teja/placeholderkit/issues"

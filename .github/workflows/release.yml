@@ -28,17 +28,13 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           cache: npm
           registry-url: https://registry.npmjs.org
-      # Trusted Publishing needs npm >= 11.5.1.
-      - run: npm install -g npm@^11.5.1
       - run: npm ci
-      # changesets/action v1 matches @changesets/cli v2 (v2 of the action requires CLI v3,
-      # which needs Node 22.11+). See docs/RELEASING.md.
-      - uses: changesets/action@v1.9.0
+      - uses: changesets/action@v2.1.2
         with:
-          version: npm run version-packages
-          publish: npm run release
-          commit: "Version Packages"
-          title: "Version Packages"
+          version-script: npm run version-packages
+          publish-script: npm run release
+          commit-message: "Version Packages"
+          pr-title: "Version Packages"

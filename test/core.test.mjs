@@ -54,3 +54,10 @@ test("every person avatar's face stands apart from its background", () => {
     assert.ok(dist(face, bg) >= 60, `seed face-${i}: ${face} on ${bg}`);
   }
 });
+
+test("package.json is importable by tools via the package's exports", async () => {
+  const { createRequire } = await import("node:module");
+  const pkg = createRequire(import.meta.url)("@placeholderkit/core/package.json");
+  assert.equal(pkg.name, "@placeholderkit/core");
+  assert.match(pkg.engines.node, />=22/);
+});

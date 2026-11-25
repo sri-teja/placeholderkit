@@ -13,7 +13,7 @@ Changes that don't affect users (docs, CI, tests) don't need a changeset.
 
 ## First publish (by hand, once)
 
-The Release workflow is off until this is done.
+Done: 0.1.0 was published by hand on 2026-11-25, and 0.1.1 was the first release from the workflow. Kept for reference.
 
 1. `npm login` (as the account that should own the package).
 2. Create the `placeholderkit` npm org at npmjs.com/org/create so the `@placeholderkit` scope is reserved.
@@ -26,5 +26,5 @@ From then on every release goes through the Version Packages PR.
 
 ## Notes
 
-- `@changesets/cli` is pinned to 2.x because 3.x needs Node 22.11+, so the Release workflow uses `changesets/action@v1` (v2 of the action requires CLI 3.x). `human-id` is pinned to 4.1.3 via `overrides` because later versions are ESM-only and break Changesets 2.x on Node < 22.12. Both can be lifted when Node 18/20 support is dropped.
-- CI (`.github/workflows/ci.yml`) runs typecheck, build, tests and `npm pack --dry-run` on Node 18, 20 and 22 for every push to `main` and every PR.
+- Tooling: `@changesets/cli` 3.x with `changesets/action` v2. Both need Node 22.11+ (and npm 10.9+) for local release commands.
+- CI (`.github/workflows/ci.yml`) runs typecheck, build, tests and `npm pack --dry-run` on Node 22, 24 and 26 for every push to `main` and every PR. Supported Node versions follow the Node release schedule: active and maintenance LTS lines plus the current release.

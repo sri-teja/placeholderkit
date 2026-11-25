@@ -16,6 +16,8 @@ Placeholder images, avatars, logos and icons for React and HTML. Built for proto
 npm install @placeholderkit/core
 ```
 
+Works in any modern browser. On the server and in build tools it needs Node.js 22 or newer.
+
 ## React
 
 ```jsx
