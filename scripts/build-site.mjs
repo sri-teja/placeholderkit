@@ -3,6 +3,7 @@
 import { mkdirSync, readFileSync, writeFileSync, copyFileSync, rmSync } from "node:fs";
 import { Resvg } from "@resvg/resvg-js";
 import { build } from "esbuild";
+import { execSync } from "node:child_process";
 import { animalSvg, personSvg, placeholderSvg } from "../dist/index.js";
 
 const OUT = "_site";
@@ -141,6 +142,10 @@ async function changelogHtml() {
     const res = await fetch("https://registry.npmjs.org/@placeholderkit%2Fcore", { signal: AbortSignal.timeout(8000) });
     if (res.ok) dates = (await res.json()).time ?? {};
   } catch {}
+  // The site can build seconds after a release, before npm records its publish time: use the commit date then.
+  if (!dates[version]) {
+    try { dates[version] = execSync("git log -1 --format=%cI", { encoding: "utf8" }).trim() || undefined; } catch {}
+  }
   const fmt = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
   const LABELS = { "Major Changes": ["Breaking changes", "breaking"], "Minor Changes": ["New", ""], "Patch Changes": ["Fixes and improvements", "fix"] };
   return releases.map((r, i) => {
